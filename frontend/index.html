@@ -23,9 +23,9 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <img src="https://placeholderlogo.com/img/placeholder-logo-1.png" alt="logo">
     </div>
     <div class="navLinks">
-      <a href="" onclick="changePage('home')">Quiz</a>
-      <a href="">Chat</a>
-      <a href="">Invite</a>
+      <a href="javascript:void(0)" onclick="changePage('quiz')">Quiz</a>
+      <a href="javascript:void(0)" onclick="changePage('chat')">Chat</a>
+      <a href="javascript:void(0)" onclick="changePage('invite')">Invite</a>
     </div>
   </div>
   <div class="container" id="page-quiz">
@@ -69,11 +69,43 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <button class="button">Join invite code</button>
       <button class="button">Browse public games</button>
     </div>
-    <div class="container page" id="page-create"></div>
-    <div class="container page" id="page-join"></div>
-    <div class="container page" id="page-browse"></div>
-    <div class="container page" id="page-chat"></div>
-    <div class="container page" id="page-invite"></div>
+  </div>
+    <div class="container page" id="page-create">
+      create
+    </div>
+    <div class="container page" id="page-join">
+      join
+    </div>
+    <div class="container page" id="page-browse">
+      browse
+    </div>
+    <div class="container page" id="page-chat">
+      chat
+    </div>
+    <div class="container page center" id="page-invite">
+      <div>
+        <h2>Invite your friends</h2>
+        <p>Invite URL:</p>
+        <textarea id="inviteCodeArea"></textarea><br>
+        <button class="pure-button pure-button-primary" onclick="copyTextarea('inviteCodeArea')">Copy Invite</button>
+      </div>
+    </div>
+
+    <div class="footer">
+        <div class="collaborators">
+            <h3>Collaborators: </h3>
+        </div>
+
+        <div class="people">
+            <i class="fab fa-linkedin"><a href=""></a></i>
+            <button><a href="###">Kyle Wells</a></button>
+            <button><a href="###">Omar Mneimneh</a></button>
+            <button><a href="###">Yoonsang Lee</a></button>
+            <button><a href="###">Maron Negassi</a></button>
+            <button><a href="###">Stefania Piciorea</a></button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 

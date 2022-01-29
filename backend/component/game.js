@@ -72,12 +72,10 @@ class GameManager {
 class GameSession {
   constructor(name) {
     this.name = name;
-    this.player = player;
     this.id = gameManager.idCounterGame++;
+    this.authKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     this.inviteCode = this.id.toString(36).toUpperCase() // Generate unique invite code based on game id
     this.players = [];
-    this.players.push(player);
-    this.maxPlayers = game.maxPlayers;
     this.created = new Date();
     
     this.questionIndex = 0;
@@ -89,10 +87,12 @@ class GameSession {
   }
 
   addPlayer(player) {
+    player.gameId = this.id
     this.players.push(player);
   }
 
   removePlayer(player) {
+    player.gameId = null
     this.players.splice(this.players.indexOf(player), 1);
   }
 
@@ -104,13 +104,10 @@ class GameSession {
     return this.players;
   }
 
-  getPlayerCount() {
-    return this.players.length;
-  }
-
   toString() {
     return {
       id: this.id,
+      authKey: this.authKey,
       name: this.name,
       inviteCode: this.inviteCode,
       players: this.players.map(player => player.toString()),

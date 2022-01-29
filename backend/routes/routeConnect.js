@@ -28,6 +28,7 @@ routeConnect.post("/new_game", (req, res) => {
   /*
   Schema for /new_game
   {
+    name: String, // Name of the game
     hostId: String, // ID of the player
   }
   RETURNS
@@ -40,6 +41,8 @@ routeConnect.post("/new_game", (req, res) => {
   */
 
   let game = gameManager.createGame(req.body.name);
+  let player = gameManager.findPlayer(req.body.hostId);
+  game.addPlayer(player);
   res.send(game.toString());
 });
 
@@ -51,8 +54,8 @@ routeConnect.get("/games", (req, res) => {
     games: Array<Game>
   }
   */
- res.send({"Hello world": true})
- // res.send(gameManager.getGameList());
+ //res.send({"Hello world": true})
+ res.send(gameManager.getGameList());
 });
 
 routeConnect.post("/join_game", (req, res) => {
