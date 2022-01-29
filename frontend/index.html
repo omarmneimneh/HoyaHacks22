@@ -34,6 +34,30 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
 
 
     <div class="interactive">
+      <div class="content" id="content-quiz">
+        <div class="qna">
+          Question <span id="questionNumber">13</span>
+          <div class="question">
+            <span id="questionText">Loading question...</span>
+          </div>
+          <div class="answers">
+            <ul id="answerslist">
+              <li id="answer-0"><button class="answerbtn" onclick="clickAnswer(0)">Answer 1</button></li>
+              <li id="answer-1"><button class="answerbtn" onclick="clickAnswer(1)">Answer 2</button></li>
+              <li id="answer-2"><button class="answerbtn" onclick="clickAnswer(2)">Answer 3</button></li>
+              <li id="answer-3"><button class="answerbtn" onclick="clickAnswer(3)">Answer 4</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copouts">
+          <button class="aidbtns" onclick="useLifeline('50:50')">50:50</button>
+          <button class="aidbtns" onclick="useLifeline('Phone a Friend')">Phone a Friend</button>
+          <br>
+          <br>
+          <button class="aidbtns" onclick="useLifeline('Ask the Audience')">Ask The Audience</button>
+          <!-- <button class="aidbtns" onclick="useLifeline('50:50')">Request a Hint</button> -->
+        </div>
+      </div>
       <div class="content" id="content-start">
         <h1>Welcome to the Quiz!</h1>
         <p>
@@ -53,34 +77,22 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <div class="content" id="content-gameover">
         Gameover
       </div>
-      <div class="content" id="content-quiz">
-        <div class="qna">
-          Question <span id="questionNumber">13</span>
-          <div class="question">
-            <span id="questionText">Loading question...</span>
-          </div>
-          <div class="answers">
-            <ul id="answerslist">
-              <li id="answer-0"><button class="answerbtn">Answer 1</button></li>
-              <li id="answer-1"><button class="answerbtn">Answer 2</button></li>
-              <li id="answer-2"><button class="answerbtn">Answer 3</button></li>
-              <li id="answer-3"><button class="answerbtn">Answer 4</button></li>
-            </ul>
-          </div>
-        </div>
-        <div class="copouts">
-          <button class="aidbtns">50:50</button>
-          <button class="aidbtns">Phone a Friend</button>
-          <br>
-          <br>
-          <button class="aidbtns">Ask The Audience</button>
-          <button class="aidbtns">Request a Hint</button>
-        </div>
+      <div class="content" id="content-win">
+        You win!
       </div>
+      <div class="content" id="content-confirm">
+        <h5>Is that your final answer?</h5>
+        <button class="pure-button" onclick="confirmAnswer()">Yes</button>
+        <button class="pure-button" onclick="changeContent('quiz')">No</button>
+      </div>
+      <div class="content" id="content-waiting">
+        <h5>Waiting for other players...</h5>
+      </div>
+      
     </div>
     <div class="prizeBoard">
       <ol class="prizes" id="prizesList">
-        
+
       </ol>
     </div>
     <div class="footer">

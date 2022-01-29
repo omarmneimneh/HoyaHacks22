@@ -34,7 +34,7 @@ routeGame.post("/lock_in_answer", (req, res) => {
   let player = gm.findPlayerByKey(req.body.playerKey);
   player.lockIn(req.body.answerIndex);
 
-  res.status(200).send();
+  res.send({});
 });
 
 routeGame.post("/use_lifeline", (req, res) => {

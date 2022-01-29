@@ -12,7 +12,7 @@ collabs?.addEventListener('click', ()=>{
 
 
 // Page management
-let page = "welcome"
+let page = "quiz"
 function changePage(gotoPage) {
     $("#page-" + page).fadeOut(150, () => {
         $("#page-" + gotoPage).fadeIn(150)
@@ -23,7 +23,7 @@ $(".page").hide() // Hide all pages
 $("#page-"+page).show()
 
 // Interactive content management
-let content = "start"
+let content = "quiz"
 function changeContent(gotoContent) {
     $("#content-" + content).fadeOut(150, () => {
         $("#content-" + gotoContent).fadeIn(150)
@@ -67,6 +67,7 @@ let playerKey = "" // Use this to authenticate player
 let deviceId = Math.random().toString().slice(2)
 let currentQuestion = "<p>Loading...</p>"
 let currentAnswers = []
+let answerIndex = -1
 let currentPrize = prizes[currentQuestion]
 let players = []
 let playerId = null
@@ -85,7 +86,8 @@ async function api(uri, payload) {
         payload.playerKey = playerKey
     }
     console.log("API call:", uri, payload)
-    let serverAddress = "http://localhost:3000/"
+    //let serverAddress = "http://localhost:3000/"
+    let serverAddress = "https://fast-river-99233.herokuapp.com/"
     const res = await fetch(serverAddress + uri, {
         method: isPostMethod ? "POST" : "GET",
         mode: 'cors', 
@@ -99,6 +101,11 @@ async function api(uri, payload) {
         referrerPolicy: 'no-referrer', 
         body: isPostMethod ? JSON.stringify(payload) : null
       });
+    if (res.status !== 200) {
+        let txt = await res.text()
+        console.log(txt)
+        return {error: true}
+    }
     let json = await res.json()
     console.log("%c" + JSON.stringify(json), 'background: #000; color: #00ff00')
     return json
@@ -156,15 +163,24 @@ async function fetchAndPopulateQuestion(questionIndex) {
     }
     
 }
-async function lockInAnswer(answerIndex) {
+async function lockInAnswer() {
     await api("game/lock_in_answer", { answerIndex })
 }
 async function useLifeline(lifelineName) {
-    await api("game/lock_in_answer", { lifelineName })
+    // lifeLineName: "50-50", "Ask the Audience", "Phone a Friend", "Reqest a Hint"(?)
+    await api("game/use_lifeline", { lifelineName })
 }
 
 
 /* Misc */
+function clickAnswer(_answerIndex) {
+    answerIndex = _answerIndex
+    changeContent("confirm")
+}
+function confirmAnswer() {
+    lockInAnswer()
+    changeContent("waiting")
+}
 function updateShareButtons() {
     // Twitter
     let shareLink = `${window.location.origin}?join=${gameId}`;

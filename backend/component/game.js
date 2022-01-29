@@ -132,6 +132,29 @@ class Player {
     };
   }
 
+  lockIn(answerIndex) {
+    this.answerIndex = answerIndex
+  }
+
+  useLifeline(lifeline) {
+    this.lifelines[lifeline].used = true
+    switch (lifeline) {
+      case "50/50":
+        break;
+
+      case "Ask the Audience":
+        break;
+
+      case "Phone a Friend":
+        break;
+
+      default:
+        console.log("Invalid lifeline", lifeline)
+        break;
+    }
+  }
+  
+
   toString() {
     return {
       id: this.id,
