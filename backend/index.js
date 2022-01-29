@@ -3,7 +3,7 @@ import { routeConnect } from "./routes/routeConnect.js"
 import { routeGame } from "./routes/routeGame.js"
 import cors from "cors"
 
-let port = 3000
+let port = process.env.PORT || 3000
 
 const app = express()
 
@@ -18,7 +18,7 @@ app.use('/connect', routeConnect)
 app.use('/game', routeGame)
 
 app.listen(port, () => {
-    console.log(`Express app running on port ${process.env.PORT || port}`)
+    console.log(`Express app running on port ${port}`)
 })
 
 // cors
