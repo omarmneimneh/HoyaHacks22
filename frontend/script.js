@@ -22,6 +22,17 @@ function changePage(gotoPage) {
 $(".page").hide() // Hide all pages
 $("#page-"+page).show()
 
+// Interactive content management
+let content = "start"
+function changeContent(gotoContent) {
+    $("#content-" + content).fadeOut(150, () => {
+        $("#content-" + gotoContent).fadeIn(150)
+    })
+    content = gotoContent
+}
+$(".content").hide() // Hide all pages
+$("#content-"+content).show()
+
 // Copy function
 function copyTextarea(id) {
     var copyText = document.getElementById(id);
@@ -123,8 +134,9 @@ async function leaveGame() {
     alert("You have left the game")
 }
 async function startQuiz() {
-    await api("connect/start_quiz", { gameId })
+    let quizData = await api("connect/start_quiz", { gameId })
     
+    changeContent("quiz")
 }
 
 

@@ -21,8 +21,8 @@ class GameManager {
   }
 
   // Create a new game
-  createGame(name) {
-    let game = new GameSession(name)
+  createGame(name, hostId, participateAsHost) {
+    let game = new GameSession(name, hostId, participateAsHost)
     this.games.push(game)
     return game
   }
@@ -53,12 +53,14 @@ class GameManager {
 }
 
 class GameSession {
-  constructor(name) {
+  constructor(name, hostId, participateAsHost) {
     this.name = name;
     this.id = gameManager.idCounterGame++;
     this.inviteCode = this.id.toString(36).toUpperCase() // Generate unique invite code based on game id
     this.players = [];
     this.created = new Date();
+    this.hostId = hostId;
+    this.participateAsHost = participateAsHost || true;
     
     this.questionIndex = 0;
     this.questions = []

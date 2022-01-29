@@ -34,32 +34,53 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
 
 
     <div class="interactive">
-      <div class="qna">
-        Question <span id="questionNumber">13</span>
-        <div class="question">
-          <span id="questionText">Loading question...</span>
-        </div>
-        <div class="answers">
-          <ul id="answerslist">
-            <li id="answer-0"><button class="answerbtn">Answer 1</button></li>
-            <li id="answer-1"><button class="answerbtn">Answer 2</button></li>
-            <li id="answer-2"><button class="answerbtn">Answer 3</button></li>
-            <li id="answer-3"><button class="answerbtn">Answer 4</button></li>
-          </ul>
-        </div>
+      <div class="content" id="content-start">
+        <h1>Welcome to the Quiz!</h1>
+        <p>
+          This is a quiz about agriculture.
+        </p>
+        <p>
+          You will have 30 seconds to answer each question.
+        </p>
+        <p>
+          Each correct answer will double your money and an incorrect answer results in a game over.
+        </p>
+        <p>
+          Good luck!
+        </p>
+        <button class="pure-button" onclick="startQuiz()">Start</button>
       </div>
-      <div class="copouts">
-        <button class="aidbtns">50:50</button>
-        <button class="aidbtns">Phone a Friend</button>
-        <br>
-        <br>
-        <button class="aidbtns">Ask The Audience</button>
-        <button class="aidbtns">Request a Hint</button>
+      <div class="content" id="content-gameover">
+        Gameover
+      </div>
+      <div class="content" id="content-quiz">
+        <div class="qna">
+          Question <span id="questionNumber">13</span>
+          <div class="question">
+            <span id="questionText">Loading question...</span>
+          </div>
+          <div class="answers">
+            <ul id="answerslist">
+              <li id="answer-0"><button class="answerbtn">Answer 1</button></li>
+              <li id="answer-1"><button class="answerbtn">Answer 2</button></li>
+              <li id="answer-2"><button class="answerbtn">Answer 3</button></li>
+              <li id="answer-3"><button class="answerbtn">Answer 4</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copouts">
+          <button class="aidbtns">50:50</button>
+          <button class="aidbtns">Phone a Friend</button>
+          <br>
+          <br>
+          <button class="aidbtns">Ask The Audience</button>
+          <button class="aidbtns">Request a Hint</button>
+        </div>
       </div>
     </div>
     <div class="prizeBoard">
       <ol class="prizes" id="prizesList">
-
+        
       </ol>
     </div>
     <div class="footer">
@@ -74,124 +95,125 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <button class=" button-secondary pure-button " id="button-browse" onclick="joinSolo()">Play solo</button>
     </div>
   </div>
-    <div class="page middle" id="page-create">
-      <form class="pure-form pure-form-stacked" onsubmit="return false">
-        <fieldset>
-            <legend>Create a room</legend>
-            <label for="your-name">Your name</label>
-            <input type="text" id="your-name" placeholder="Name" />
-            <br>
+  <div class="page middle" id="page-create">
+    <form class="pure-form pure-form-stacked" onsubmit="return false">
+      <fieldset>
+        <legend>Create a room</legend>
+        <label for="your-name">Your name</label>
+        <input type="text" id="your-name" placeholder="Name" />
+        <br>
 
-            <label for="room-name">Room name</label>
-            <input type="text" id="room-name" placeholder="Room" />
-            <br>
-            
-              <label for="aligned-cb" class="pure-checkbox">
-                  <input type="checkbox" id="participate-as-host" checked /> Participate as host
-              </label>
-              <small>If checked, the host (you) also answers the questions</small><br><br>
-              <button type="submit" class="pure-button pure-button-primary" onclick="submitCreateARoom()">Create</button>
-              <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
-    
+        <label for="room-name">Room name</label>
+        <input type="text" id="room-name" placeholder="Room" />
+        <br>
 
-        </fieldset>
-      </form>
+        <label for="aligned-cb" class="pure-checkbox">
+          <input type="checkbox" id="participate-as-host" checked /> Participate as host
+        </label>
+        <small>If checked, the host (you) also answers the questions</small><br><br>
+        <button type="submit" class="pure-button pure-button-primary" onclick="submitCreateARoom()">Create</button>
+        <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
+
+
+      </fieldset>
+    </form>
+  </div>
+  <div class="middle page" id="page-join">
+    <!-- pure css large input -->
+    <form class="pure-form pure-form-stacked" onsubmit="return false">
+      <fieldset>
+        <legend>Join a room</legend>
+        <label for="invite-code-input">Invite code</label>
+        <input type="text" id="invite-code-input" placeholder="..." />
+        <button type="submit" class="pure-button pure-button-primary" onclick="submitJoinARoom()">Join</button>
+        <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
+
+      </fieldset>
+    </form>
+  </div>
+  <div class="container page" id="page-browse">
+    browse
+  </div>
+  <div class="container page" id="page-chat">
+    chat
+  </div>
+  <div class="container page center" id="page-invite">
+    <div>
+      <h2>Invite your friends</h2>
+      <p>Invite URL:</p>
+      <textarea id="inviteCodeArea" readonly></textarea><br>
+      <button class="pure-button pure-button-primary" id="copyInvite"
+        onclick="copyTextarea('inviteCodeArea'); $('#copyInvite').text('Copied')">Copy Invite</button>
+      <h2>Share on Social Media</h2>
+      <!-- Twitter widget with share button -->
+      <a class="twitter-share-button"
+        href="https://twitter.com/intent/tweet?text=Join%20my%20quiz%20%22Who%20wants%20to%20be%20a%20farmer%22"
+        data-size="large">
+        Tweet
+      </a>
+      <h2>Start quiz</h2>
+      <a href="javascript:void(0)" onclick="changePage('quiz')">Take me to the quiz</a>
+
+
     </div>
-    <div class="middle page" id="page-join">
-      <!-- pure css large input -->
-      <form class="pure-form pure-form-stacked" onsubmit="return false">
-        <fieldset>
-            <legend>Join a room</legend>
-            <label for="invite-code-input">Invite code</label>
-            <input type="text" id="invite-code-input" placeholder="..." />
-            <button type="submit" class="pure-button pure-button-primary" onclick="submitJoinARoom()">Join</button>
-            <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
+  </div>
 
-        </fieldset>
-      </form>
+  <div class="footer">
+    <div class="collaborators">
+      <h3>Collaborators: </h3>
     </div>
-    <div class="container page" id="page-browse">
-      browse
-    </div>
-    <div class="container page" id="page-chat">
-      chat
-    </div>
-    <div class="container page center" id="page-invite">
-      <div>
-        <h2>Invite your friends</h2>
-        <p>Invite URL:</p>
-        <textarea id="inviteCodeArea" readonly></textarea><br>
-        <button class="pure-button pure-button-primary" id="copyInvite" onclick="copyTextarea('inviteCodeArea'); $('#copyInvite').text('Copied')">Copy Invite</button>
-        <h2>Share on Social Media</h2>
-        <!-- Twitter widget with share button -->
-        <a class="twitter-share-button"
-          href="https://twitter.com/intent/tweet?text=Join%20my%20quiz%20%22Who%20wants%20to%20be%20a%20farmer%22"
-          data-size="large">
-          Tweet
-        </a>
-        <h2>Start quiz</h2>
-        <a href="javascript:void(0)" onclick="changePage('quiz')">Take me to the quiz</a>
 
-
+    <div class="people">
+      <div class="person">
+        <h4>Omar Mneimneh</h4>
+        <div class="info">
+          <a class="linkedin" href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
+        </div>
       </div>
-    </div>
-
-    <div class="footer">
-        <div class="collaborators">
-            <h3>Collaborators: </h3>
+      <div class="person">
+        <h4>Kyle Wells</h4>
+        <div class="info">
+          <a class="linkedin" href="https://www.linkedin.com/in/kqwq/">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
         </div>
+      </div>
 
-        <div class="people">
-            <div class="person">
-                <h4>Omar Mneimneh</h4>
-                <div class="info">
-                    <a class="linkedin" href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
-                        <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                </div>
-            </div>
-            <div class="person">
-                <h4>Kyle Wells</h4>
-                <div class="info">
-                    <a class="linkedin" href="https://www.linkedin.com/in/kqwq/">
-                        <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                </div>
-            </div>
-
-            <div class="person">
-                <h4>Stefania Piciorea</h4>
-                <div class="info">
-                    <a class="linkedin" href="https://www.linkedin.com/in/stefania-piciorea-305056182/">
-                        <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                </div>
-            </div>
-
-            <div class="person">
-                <h4>Yoonsang Lee</h4>
-                <div class="info">
-                    <a class="linkedin" href="https://www.linkedin.com/in/martin-18654a221//">
-                        <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                </div>
-            </div>
-
-            <div class="person">
-                <h4>Maron Negassi</h4>
-                <div class="info">
-                    <a class="linkedin"href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
-                        <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                </div>
-            </div>
-            
+      <div class="person">
+        <h4>Stefania Piciorea</h4>
+        <div class="info">
+          <a class="linkedin" href="https://www.linkedin.com/in/stefania-piciorea-305056182/">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
         </div>
-    </div>
+      </div>
 
-    <script src="script.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <div class="person">
+        <h4>Yoonsang Lee</h4>
+        <div class="info">
+          <a class="linkedin" href="https://www.linkedin.com/in/martin-18654a221//">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
+        </div>
+      </div>
+
+      <div class="person">
+        <h4>Maron Negassi</h4>
+        <div class="info">
+          <a class="linkedin" href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

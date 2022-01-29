@@ -43,6 +43,7 @@ routeConnect.post("/new_game", (req, res) => {
 
   let game = gm.createGame(req.body.name);
   let player = gm.findPlayerByKey(req.body.playerKey);
+  game.hostId = player.id;
   game.addPlayer(player);
   res.send(game.toString());
 });
@@ -79,6 +80,23 @@ routeConnect.post("/join_game", (req, res) => {
 });
 
 routeConnect.post("/leave_game", (req, res) => {
+  /*
+  Schema for /leave_game
+  {
+    playerKey: String, // Auth key of the player
+  }
+  RETURNS
+  {
+    error: undefined | Boolean, // Whether the player was successfully removed
+  }
+  */
+  let player = gm.findPlayerByKey(req.body.playerKey);
+  let game = gm.findGame(req.body.gameId);
+  game.removePlayer(player);
+  res.send({error: false});
+})
+
+routeConnect.post("/start_quiz", (req, res) => {
   /*
   Schema for /leave_game
   {
