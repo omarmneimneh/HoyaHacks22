@@ -18,5 +18,6 @@ app.use('/connect', routeConnect)
 app.use('/game', routeGame)
 
 app.listen(port, () => {
+    console.log("new update")
     console.log(`Express app running on port ${port}`)
 }) 
