@@ -1,6 +1,7 @@
 
-import { jsonc } from 'jsonc'
+import JSON5 from 'json5'
 import fs from 'fs'
+
 
 class GameManager {
   constructor(name) {
@@ -8,8 +9,8 @@ class GameManager {
     this.games = [] // Array of ongoing games
     this.idCounterGame = 123456 // Used to generate unique game id
     this.idCounterPlayer = 1 // Used to generate unique player id
-    let questionsFile = fs.readFileSync('../storage/questions.jsonc')
-    this.allQuestions = jsonc.parse(questionsFile)
+    let questionsFile = fs.readFileSync('./storage/questions.jsonc')
+    this.allQuestions = JSON5.parse(questionsFile)
   }
 
   // Register an anonymous player
@@ -27,13 +28,17 @@ class GameManager {
     return game
   }
 
-  joinGame(gameId, player) {
+  joinGame(gameId, playerId) {
+    let player = this.findPlayer(playerId)
+    if (player.gameId !== null) {
+      this.removePlayer(player.gameId, playerId)
+    }
     let game = this.getGame(gameId)
     if (game) {
       game.addPlayer(player)
       return game
     }
-    return null
+    return {error: true}
   }
 
   // Find a game by id
@@ -46,20 +51,21 @@ class GameManager {
     return this.games.find(game => game.name === name)
   }
 
-  // Add player to a game
-  addPlayer(gameId, player) {
-    let game = this.findGame(gameId)
-    if (game) {
-      game.addPlayer(player)
-    }
+  // Find a player by id
+  findPlayer(id) {
+    return this.players.find(player => player.id === id)
   }
-
+  
   // Remove player from a game
   removePlayer(gameId, playerId) {
     let game = this.findGame(gameId)
     if (game) {
       game.removePlayer(playerId)
     }
+  }
+
+  getGameList() {
+    return this.games.map(game => game.toString())
   }
 }
 
@@ -111,6 +117,15 @@ class GameSession {
   getPlayerCount() {
     return this.players.length;
   }
+
+  toString() {
+    return {
+      id: this.id,
+      name: this.name,
+      inviteCode: this.inviteCode,
+      players: this.players.map(player => player.toString()),
+    }
+  }
 }
 
 class Player {
@@ -123,8 +138,8 @@ class Player {
 
   toString() {
     return {
-      "id": this.id,
-      "name": this.name,
+      id: this.id,
+      name: this.name,
 
     }
   }

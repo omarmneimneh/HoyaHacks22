@@ -6,11 +6,12 @@
   "scripts": {
     "start": "node index.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "jsonc": "^2.0.0"
+    "json5": "^2.2.0"
   }
 }

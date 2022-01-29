@@ -1,4 +1,6 @@
 import express from "express";
-const router = express.Router();
+const routeGame = express.Router();
 
 //router.route("/")
+
+export { routeGame }
