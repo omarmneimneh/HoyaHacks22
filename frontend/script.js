@@ -19,13 +19,14 @@ let gameId = null
 async function api(uri, payload) {
     let serverAddress = "http://localhost:3000/"
     let res = await fetch(serverAddress + uri, {
-        method: "POST",
+        method: payload ? "POST" : "GET",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
+        body: payload ? JSON.stringify(payload) : null
     })
     let json = await res.json()
+    console.log("%c" + json, 'background: #000; color: #00ff00')
     return json
 }
 

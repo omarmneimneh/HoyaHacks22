@@ -51,7 +51,8 @@ routeConnect.get("/games", (req, res) => {
     games: Array<Game>
   }
   */
-  res.send(gameManager.getGameList());
+ res.send({"Hello world": true})
+ // res.send(gameManager.getGameList());
 });
 
 routeConnect.post("/join_game", (req, res) => {
