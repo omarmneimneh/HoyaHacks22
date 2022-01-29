@@ -1,7 +1,7 @@
 import express from "express";
 const routeConnect = express.Router();
 import { gameManager } from "../component/game.js"; 
-let gm = gameManager;
+const gm = gameManager;
 
 // Log in and such
 routeConnect.post("/guest_login", (req, res) => {

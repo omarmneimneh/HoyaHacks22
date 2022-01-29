@@ -12,7 +12,7 @@ collabs?.addEventListener('click', ()=>{
 
 
 // Page management
-let page = "quiz"
+let page = "welcome"
 function changePage(gotoPage) {
     $("#page-" + page).fadeOut(200, () => {
         $("#page-" + gotoPage).fadeIn()
@@ -20,7 +20,7 @@ function changePage(gotoPage) {
     page = gotoPage
 }
 $(".page").hide() // Hide all pages
-$("#page-quiz").show()
+$("#page-"+page).show()
 
 // Copy function
 function copyTextarea(id) {
@@ -48,7 +48,9 @@ async function init() {
 
     playerName = "test" //prompt("What should other players call you?")
     await connectToServer()
-    await createGame()
+    // await createGame()
+
+    // await fetchAndPopulateQuestion(0)
 }
 let playerKey = "" // Use this to authenticate player
 let deviceId = Math.random().toString().slice(2)
@@ -61,10 +63,17 @@ let playerName = "Guest"
 let gameId = null
 
 async function api(uri, payload) {
+    let isPostMethod = typeof payload !== "GET"
+    if (isPostMethod) {
+        if (!payload) {
+            payload = {}
+        }
+        payload.playerKey = playerKey
+    }
     console.log("API call:", uri, payload)
     let serverAddress = "http://localhost:3000/"
     const res = await fetch(serverAddress + uri, {
-        method: payload ? "POST" : "GET",
+        method: isPostMethod ? "POST" : "GET",
         mode: 'cors', 
         cache: 'no-cache', 
         credentials: 'same-origin',
@@ -74,56 +83,68 @@ async function api(uri, payload) {
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer', 
-        body: payload ? JSON.stringify(payload) : null
+        body: isPostMethod ? JSON.stringify(payload) : null
       });
     let json = await res.json()
     console.log("%c" + JSON.stringify(json), 'background: #000; color: #00ff00')
     return json
 }
 
+/* Connect routes */
 async function connectToServer() {
-    let payload = {
+    let playerData = await api("connect/guest_login", {
         name: playerName,
         deviceId: deviceId
-    }
-    let playerData = await api("connect/guest_login", payload)
+    })
     playerId = playerData.id
     playerKey = playerData.playerKey
     $("#playerName").html(playerData.name)
 }
-
 async function createGame() {
-    let payload = {
-        playerKey: playerKey
-    }
-    let gameData = await api("connect/new_game", payload)
+    let gameData = await api("connect/new_game")
     gameId = gameData.id
     let joinLink = `${window.location.origin}?join=${gameData.inviteCode}`;
     updateShareButtons()
     $("#inviteCodeArea").html(joinLink)
 }
-
 async function joinGame() {
-    let payload = {
-        gameId: gameId,
-        playerKey: playerKey
-    }
-    let playerData = await api("connect/join_game", payload)
+    let playerData = await api("connect/join_game", { gameId })
     playerId = playerData.id
 }
-
 async function leaveGame() {
-    let payload = {
-        gameId: gameId,
-        playerKey: playerKey
-    }
-    let data = await api("connect/leave_game", payload)
+    await api("connect/leave_game", { gameId })
     alert("You have left the game")
 }
 
+
+/* Connect routes */
+async function fetchAndPopulateQuestion(questionIndex) {
+    let questionData = await api("game/get_question", { questionIndex })
+
+    // Populate question
+    $("#questionText").text(questionData.q)
+    $("#questionNumber").text(questionIndex + 1)
+
+    // Populate answers
+    let alphabet = "ABCD"
+    for (let i = 0; i < questionData.a.length; i++) {
+        let answer = questionData.a[i]
+        $(`#answer-${i} button`).text(`${alphabet[i]}. ${answer}`)
+    }
+    
+}
+async function lockInAnswer(answerIndex) {
+    await api("game/lock_in_answer", { answerIndex })
+}
+async function lockInAnswer(lifelineName) {
+    await api("game/lock_in_answer", { lifelineName })
+}
+
+/* Misc */
 function updateShareButtons() {
     // Twitter
     let shareLink = `${window.location.origin}?join=${gameId}`;
     let shareDescription = `Join my quiz "Who Wants To Be A Millionaire"!`
     $(".twitter-share-button")[0].href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareDescription)}&url=${encodeURIComponent(shareLink)}`
 }
+

@@ -1,28 +1,138 @@
-[
+[ // Do you know how to do the index field?
   {
-    "q": "Question text",
+    "q": "What can happen if cassava is not carefully soaked, dried, and scraped before consumption?",
     "a": [ // a = answer
-      "Answer 1",
-      "Answer 2",
-      "Answer 3",
-      "Answer 4"
-    ],
-    "correct": -1, // Index of correct answer (0-3)
-    "correctText": "",
+      "It can lead to cyanide poisoning",
+      "It can cause severe indigestion",
+      "Nothing, despite its bitter taste, cassava peel contains essential nutrients",
+      "It can cause constipation"
+    ],// Yep. JSON = JavaScript Object Notation  dm me if you need help
+    "correct": 0, // Index of correct answer (0-3)
+    "correctText": "", // You can leave this blank for now
     "difficulty": "easy" // "easy" || "medium" || "hard"
   },
   {
-    "q": "Question text",
-    "a": [ // a = answer
-      "Answer 1",
-      "Answer 2",
-      "Answer 3",
-      "Answer 4"
+    "q": "How moist should the soil be when transplanting rice?",
+    "a": [
+      "Damp: it should feel wet to the touch up to 2 inches below the surface",
+      "Very dry: the soil should feel dry to the touch and present small cracks on the surface",
+      "Wet: the water should reach your ankle when stepping onto the field",
+      "Very wet: the water should reach your calf when stepping onto the field"
     ],
-    "correct": -1, // Index of correct answer (0-3)
+    "correct": 3,
     "correctText": "",
-    "difficulty": "easy" // "easy" || "medium" || "hard"
-  },
+    "difficulty": "easy" 
+  },{
+    "q": "Why is the African Swine Fever a problem in Africa?",
+    "a": [
+      "It is highly contagious among people and pigs, and causes severe illness in both",
+      "It is caused by a virus carried by pigs, but only affects humans and leads to severe illness",
+      "It is a disease that only affects pigs and can be fatal, leading to monetary losses for farmers",
+      "It is highly contagious and fatal to humans and is responsible for over 100,000 deaths"
+    ],
+    "correct": 2,
+    "correctText": "",
+    "difficulty": "easy" 
+  },{
+    "q": "Why should African people raise maggots?",
+    "a": [
+      "Natives consider them a delicacy and they generate good profit",
+      "They are a good substitute for meat and are used in lots of African dishes",
+      "They can be used as a cheap feed alternative for chicken, pigs and fish",
+      "They make a great substitute for fertilizer"
+    ],
+    "correct": 2,
+    "correctText": "",
+    "difficulty": "easy" 
+  },{
+    "q": "What are the best soils for growing cassava?",
+    "a": [
+      "Well-drained sandy clay loam",
+      "Well-drained loose cool soil",
+      "Loamy, acid soil",
+      "Acidic soils with high levels of iron oxides"
+    ],
+    "correct": 0,
+    "correctText": "",
+    "difficulty": "medium" 
+  },{
+    "q": "When is the best time to transplant rice?",
+    "a": [
+      "15-30 days after seeding",
+      "7-10 days after seeding",
+      "30-60 days after seeding",
+      "7 days after seeding"
+    ],
+    "correct": 0,
+    "correctText": "",
+    "difficulty": "medium" 
+  },{
+    "q": "Which of the following are Africa’s cash crops?",
+    "a": [
+      "Corn, cassava, rice",
+      "Cotton, coffee, cocoa",
+      "Sweet potato, plantain, peanuts",
+      "Eggplant, cucumber, beans"
+    ],
+    "correct": 1,
+    "correctText": "",
+    "difficulty": "medium" 
+  },{
+    "q": "Micro-dosing is a method of: ",
+    "a": [
+      "Fertilizing",
+      "Watering",
+      "Food preparation",
+      "None of the above"
+    ],
+    "correct": 0,
+    "correctText": "",
+    "difficulty": "medium" 
+  },{
+    "q": "How much fertilizer is used in the micro-dosing method?",
+    "a": [
+      "4 to 8 kg of nitrogen/hectare; 1/10 of the recommended amount",
+      "8 to 10 kg of nitrogen/hectare; 1/5 of the recommended amount",
+      "16 to 20 kg of nitrogen/hectare; 2/5 of the recommended amount",
+      "2 to 4 kg of nitrogen/hectare; 1/20 of the recommended amount"
+    ],
+    "correct": 1,
+    "correctText": "",
+    "difficulty": "hard" 
+  },{
+    "q": "Which one of the following is correct about organic and inorganic fertilizer?",
+    "a": [
+      "Inorganic fertilizer releases nutrients only when the soil is moist and warm, while organic fertilizer acts immediately",
+      "Organic fertilizer releases nutrients only when the soil is moist and warm, while inorganic fertilizer acts immediately",
+      "The difference between the two only lies in the way it is produced, but they act the same",
+      "Organic fertilizer releases nutrients only when the soil is cool and moist, while inorganic releases nutrients when the soil is warm and moist"
+    ],
+    "correct": 1,
+    "correctText": "",
+    "difficulty": "hard" 
+  },{
+    "q": "How many kittens can a rabbit produce a year?",
+    "a": [
+      "5",
+      "10",
+      "20",
+      "30"
+    ],
+    "correct": 3,
+    "correctText": "",
+    "difficulty": "hard" 
+  },{
+    "q": "How long can fresh vegetables last in a hand-made refrigerator that does not use electricity?",
+    "a": [
+      "5 days",
+      "1 month",
+      "2 weeks",
+      "20 days"
+    ],
+    "correct": 2,
+    "correctText": "",
+    "difficulty": "hard" 
+  }
 
  
 ]

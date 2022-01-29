@@ -28,27 +28,29 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <a href="javascript:void(0)" onclick="changePage('invite')">Invite</a>
     </div>
   </div>
-  <div class="container" id="page-quiz">
+  <div class="container page" id="page-quiz">
 
 
     <div class="interactive">
       <div class="qna">
         Question <span id="questionNumber">13</span>
         <div class="question">
-          13. Which of the following is not a type of crop grown in the United States?
+          <span id="questionText">Which of the following is not a type of crop grown in the United States?</span>
         </div>
         <div class="answers">
           <ul id="answerslist">
-            <li id="answer"><button id="answerbtn">Answer 1</button></li>
-            <li id="answer"><button id="answerbtn">Answer 2</button></li>
-            <li id="answer"><button id="answerbtn">Answer 3</button></li>
-            <li id="answer"><button id="answerbtn">Answer 4</button></li>
+            <li id="answer-0"><button class="answerbtn">Answer 1</button></li>
+            <li id="answer-1"><button class="answerbtn">Answer 2</button></li>
+            <li id="answer-2"><button class="answerbtn">Answer 3</button></li>
+            <li id="answer-3"><button class="answerbtn">Answer 4</button></li>
           </ul>
         </div>
       </div>
       <div class="copouts">
         <button class="aidbtns">50:50</button>
         <button class="aidbtns">Phone a Friend</button>
+        <br>
+        <br>
         <button class="aidbtns">Ask The Audience</button>
         <button class="aidbtns">Request a Hint</button>
       </div>
@@ -62,12 +64,12 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
     </div>
   </div>
 
-  <div class="container page" id="page-welcome">
+  <div class="container page center " id="page-welcome">
     <!-- 3 pure css buttons -->
-    <div class="button-group">
-      <button class="button">Create</button>
-      <button class="button">Join invite code</button>
-      <button class="button">Browse public games</button>
+    <div class="vertical-center">
+      <button class="pure-button" id="button-create">Create</button>
+      <button class="pure-button" id="button-join">Join invite code</button>
+      <button class="pure-button" id="button-browse">Browse public games</button>
     </div>
   </div>
     <div class="container page" id="page-create">

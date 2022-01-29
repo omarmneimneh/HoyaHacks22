@@ -61,10 +61,23 @@ class GameSession {
     this.created = new Date();
     
     this.questionIndex = 0;
-    this.questionOrder = [];
+    this.questions = []
 
     this.currentQuestion = {};
     
+    // Generate a random order of questions
+    let allQuestionsCopy = [ ...gameManager.allQuestions]
+    while (allQuestionsCopy.length && this.questions.length < 15) {
+      let index = Math.floor(Math.random() * allQuestionsCopy.length)
+      this.questions.push(allQuestionsCopy[index])
+      allQuestionsCopy.splice(index, 1)
+    }
+      
+
+  }
+
+  getQuestion(index) {
+    return this.questions[index]
 
   }
 
