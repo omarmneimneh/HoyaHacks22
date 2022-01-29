@@ -10,4 +10,4 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
-// Can you run node index.js in your terminal?
+console.log("test")
