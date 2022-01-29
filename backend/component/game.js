@@ -20,25 +20,11 @@ class GameManager {
     return player
   }
 
-
   // Create a new game
   createGame(name) {
     let game = new GameSession(name)
     this.games.push(game)
     return game
-  }
-
-  joinGame(gameId, playerId) {
-    let player = this.findPlayer(playerId)
-    if (player.gameId !== null) {
-      this.removePlayer(player.gameId, playerId)
-    }
-    let game = this.getGame(gameId)
-    if (game) {
-      game.addPlayer(player)
-      return game
-    }
-    return {error: true}
   }
 
   // Find a game by id
@@ -47,21 +33,18 @@ class GameManager {
   }
 
   // Find a game by name
-  findGameByName(name) {
-    return this.games.find(game => game.name === name)
+  findGamesByName(name) {
+    return this.games.filter(game => game.name === name)
   }
 
   // Find a player by id
   findPlayer(id) {
     return this.players.find(player => player.id === id)
   }
-  
-  // Remove player from a game
-  removePlayer(gameId, playerId) {
-    let game = this.findGame(gameId)
-    if (game) {
-      game.removePlayer(playerId)
-    }
+
+  // Find a player by key
+  findPlayerByKey(playerKey) {
+    return this.players.find(player => player.playerKey === playerKey)
   }
 
   getGameList() {
@@ -73,7 +56,6 @@ class GameSession {
   constructor(name) {
     this.name = name;
     this.id = gameManager.idCounterGame++;
-    this.authKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     this.inviteCode = this.id.toString(36).toUpperCase() // Generate unique invite code based on game id
     this.players = [];
     this.created = new Date();
@@ -110,7 +92,7 @@ class GameSession {
       authKey: this.authKey,
       name: this.name,
       inviteCode: this.inviteCode,
-      players: this.players.map(player => player.toString()),
+      playersLength: this.players.length,
     }
   }
 }
@@ -121,6 +103,7 @@ class Player {
     this.ip = ip || null
     this.id = gameManager.idCounterPlayer++;
     this.gameId = null;
+    this.playerKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     this.lifelines = {
       "50/50": {
         "used": false,
@@ -138,7 +121,7 @@ class Player {
     return {
       id: this.id,
       name: this.name,
-
+      playerKey: this.playerKey,
     }
   }
 }

@@ -1,7 +1,7 @@
 //Open modal 
 const collabs = document.getElementById('collabs')
 
-collabs.addEventListener('click', ()=>{
+collabs?.addEventListener('click', ()=>{
     const modal = document.querySelector('.modal')
     modal.classList.add('show')
     const close = document.getElementById('close')
@@ -44,10 +44,13 @@ let prizes = [100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 1
 $(document).ready(init);
 async function init() {
     $("#prizesList").html(prizes.map(p => `<li id="prize-${p}" class="prize">${p}</li>`).join(""))
+
+
     playerName = "test" //prompt("What should other players call you?")
     await connectToServer()
     await createGame()
 }
+let playerKey = "" // Use this to authenticate player
 let deviceId = Math.random().toString().slice(2)
 let currentQuestion = "<p>Loading...</p>"
 let currentAnswers = []
@@ -83,36 +86,44 @@ async function connectToServer() {
         name: playerName,
         deviceId: deviceId
     }
-    let data = await api("connect/guest_login", payload)
-    playerId = data.id
-    $("#playerName").html(data.name)
+    let playerData = await api("connect/guest_login", payload)
+    playerId = playerData.id
+    playerKey = playerData.playerKey
+    $("#playerName").html(playerData.name)
 }
 
 async function createGame() {
     let payload = {
-        hostId: playerId
+        playerKey: playerKey
     }
-    let data = await api("connect/new_game", payload)
-    gameId = data.id
-    let joinLink = `${window.location.origin}?join=${data.inviteCode}`;
+    let gameData = await api("connect/new_game", payload)
+    gameId = gameData.id
+    let joinLink = `${window.location.origin}?join=${gameData.inviteCode}`;
+    updateShareButtons()
     $("#inviteCodeArea").html(joinLink)
 }
 
 async function joinGame() {
     let payload = {
         gameId: gameId,
-        playerId: playerId
+        playerKey: playerKey
     }
-    let data = await api("connect/join_game", payload)
-    playerId = data.id
-    $("#playerName").html(data.name)
+    let playerData = await api("connect/join_game", payload)
+    playerId = playerData.id
 }
 
 async function leaveGame() {
     let payload = {
         gameId: gameId,
-        playerId: playerId
+        playerKey: playerKey
     }
     let data = await api("connect/leave_game", payload)
     alert("You have left the game")
+}
+
+function updateShareButtons() {
+    // Twitter
+    let shareLink = `${window.location.origin}?join=${gameId}`;
+    let shareDescription = `Join my quiz "Who Wants To Be A Millionaire"!`
+    $(".twitter-share-button")[0].href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareDescription)}&url=${encodeURIComponent(shareLink)}`
 }

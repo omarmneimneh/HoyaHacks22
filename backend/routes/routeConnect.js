@@ -1,6 +1,7 @@
 import express from "express";
 const routeConnect = express.Router();
 import { gameManager } from "../component/game.js"; 
+let gm = gameManager;
 
 // Log in and such
 routeConnect.post("/guest_login", (req, res) => {
@@ -19,7 +20,7 @@ routeConnect.post("/guest_login", (req, res) => {
   let name = req.body.name;
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   let deviceId = req.body.deviceId;
-  const player = gameManager.connectPlayer(name, ip, deviceId);
+  const player = gm.connectPlayer(name, ip, deviceId);
   res.send(player.toString());
 });
 
@@ -29,7 +30,7 @@ routeConnect.post("/new_game", (req, res) => {
   Schema for /new_game
   {
     name: String, // Name of the game
-    hostId: String, // ID of the player
+    playerKey: String, // Auth key of the player creating the game
   }
   RETURNS
   {
@@ -40,8 +41,8 @@ routeConnect.post("/new_game", (req, res) => {
   }
   */
 
-  let game = gameManager.createGame(req.body.name);
-  let player = gameManager.findPlayer(req.body.hostId);
+  let game = gm.createGame(req.body.name);
+  let player = gm.findPlayerByKey(req.body.playerKey);
   game.addPlayer(player);
   res.send(game.toString());
 });
@@ -55,15 +56,15 @@ routeConnect.get("/games", (req, res) => {
   }
   */
  //res.send({"Hello world": true})
- res.send(gameManager.getGameList());
+ res.send(gm.getGameList());
 });
 
 routeConnect.post("/join_game", (req, res) => {
   /*
   Schema for /join_game
   {
-    gameId: String, // ID of the game
-    playerId: String, // ID of the player
+    gameId: String, // ID of the game to join
+    playerKey: String, // Auth key of the player
   }
   RETURNS
   {
@@ -72,7 +73,8 @@ routeConnect.post("/join_game", (req, res) => {
     inviteCode: String, // Invite code for the game
     players: Array<Player> // List of players in the game
   */
-  let collection = gameManager.joinGame(req.body.gameId, req.body.playerId);
+  let player = gm.findPlayerByKey(req.body.playerKey);
+  let collection = gm.findGame(req.body.gameId).addPlayer(player);
   return res.send(collection.game.toString());
 });
 
@@ -80,15 +82,16 @@ routeConnect.post("/leave_game", (req, res) => {
   /*
   Schema for /leave_game
   {
-    gameId: String, // ID of the game
-    playerId: String, // ID of the player
+    playerKey: String, // Auth key of the player
   }
   RETURNS
   {
     error: undefined | Boolean, // Whether the player was successfully removed
   }
   */
-  gameManager.removePlayer(req.body.gameId, req.body.playerId);
+  let player = gm.findPlayerByKey(req.body.playerKey);
+  let game = gm.findGame(req.body.gameId);
+  game.removePlayer(player);
   res.send({error: false});
 })
 

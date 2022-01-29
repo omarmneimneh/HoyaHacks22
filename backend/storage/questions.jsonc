@@ -1,62 +1,28 @@
 [
   {
-    "q": { // q = question
-      "en": "What is the most grown food in the world?",
-      "fr": "Quel est le plus grand aliment du monde?"
-    },
+    "q": "Question text",
     "a": [ // a = answer
-      { // Index: 0
-        "en": "Cotton",
-        "fr": "Coton"
-      },
-      { // Index: 1
-        "en": "Wheat",
-        "fr": "Blé"
-      },
-      { // Index: 2
-        "en": "Rice",
-        "fr": "Riz"
-      },
-      { // Index: 3
-        "en": "Corn",
-        "fr": "Maïs"
-      }
+      "Answer 1",
+      "Answer 2",
+      "Answer 3",
+      "Answer 4"
     ],
-    "correct": 3, // Answer is corn
-    "correctText": { // Text to show after the contestant answers the question
-      "en": "Corn is the most grown food in the world.",
-      "fr": "Le maïs est le plus grand aliment du monde."
-    },
-    "difficulty": "easy"
+    "correct": -1, // Index of correct answer (0-3)
+    "correctText": "",
+    "difficulty": "easy" // "easy" || "medium" || "hard"
+  },
+  {
+    "q": "Question text",
+    "a": [ // a = answer
+      "Answer 1",
+      "Answer 2",
+      "Answer 3",
+      "Answer 4"
+    ],
+    "correct": -1, // Index of correct answer (0-3)
+    "correctText": "",
+    "difficulty": "easy" // "easy" || "medium" || "hard"
   },
 
-  {
-    "q": {
-      "en": "Which of the following grows in warm climates?"
-    },
-    "a": [
-      { // Index: 0
-        "en": "Cotton"
-      },
-      { // Index: 1
-        "en": "Wheat"
-      },
-      { // Index: 2
-        "en": "Rice"
-      },
-      { // Index: 3
-        "en": "Corn"
-      }
-    ],
-    "correctText": {
-      "en": "Cotton grows in warm climates."
-    },
-    "difficulty": "medium"
-  },
-  {
-    // Question 3
-    "q": {
-      
-    }
-  }
+ 
 ]
