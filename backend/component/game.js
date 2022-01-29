@@ -1,18 +1,39 @@
 
-
+import { jsonc } from 'jsonc'
+import fs from 'fs'
 
 class GameManager {
   constructor(name) {
+    this.players = []
     this.games = [] // Array of ongoing games
     this.idCounterGame = 123456 // Used to generate unique game id
     this.idCounterPlayer = 1 // Used to generate unique player id
+    let questionsFile = fs.readFileSync('../storage/questions.jsonc')
+    this.allQuestions = jsonc.parse(questionsFile)
   }
+
+  // Register an anonymous player
+  connectPlayer(name, ip) {
+    let player = new Player(name, ip)
+    this.players.push(player)
+    return player
+  }
+
 
   // Create a new game
   createGame(name) {
     let game = new GameSession(name)
     this.games.push(game)
     return game
+  }
+
+  joinGame(gameId, player) {
+    let game = this.getGame(gameId)
+    if (game) {
+      game.addPlayer(player)
+      return game
+    }
+    return null
   }
 
   // Find a game by id
@@ -93,11 +114,21 @@ class GameSession {
 }
 
 class Player {
-  constructor(name) {
-    this.name = name;
+  constructor(name, ip) {
+    this.name = name || ("Guest-" + idCounterPlayer)
+    this.ip = ip || null
     this.id = idCounterPlayer++;
+    this.gameId = null;
+  }
+
+  toString() {
+    return {
+      "id": this.id,
+      "name": this.name,
+
+    }
   }
 }
 
-
-export { GameManager }
+let gameManager = new GameManager()
+export { gameManager }
