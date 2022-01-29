@@ -1,9 +1,6 @@
-*{
-    margin: 0 auto;
-}
-.container{
-    width: 100vw;
-    height: 100vh;
+html, body {
+    margin: 0;
+    padding: 0;
 }
 
 .navBox{
