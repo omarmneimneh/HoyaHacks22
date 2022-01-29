@@ -3,7 +3,7 @@ const routeConnect = express.Router();
 import { gameManager } from "../component/game.js"; 
 
 // Log in and such
-routeConnect.route("/connect", (req, res) => {
+routeConnect.route("/guest_login", (req, res) => {
   /*
   Schema for /connect
   {

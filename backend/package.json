@@ -7,10 +7,12 @@
     "start": "node index.js"
   },
   "type": "module",
+  "proxy": "http://localhost:3000",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2",
     "json5": "^2.2.0"
   }
