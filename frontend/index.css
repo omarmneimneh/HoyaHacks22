@@ -16,14 +16,22 @@ html, body {
     justify-content: center;
 }
 
-.vertical-center {
-    margin: 0;
+.middle {
     position: absolute;
     top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
-
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: larger;
+}
 .button-success {
     /* from https://purecss.io/buttons/ */
     background: rgb(28, 184, 65);
@@ -38,7 +46,7 @@ html, body {
     /* this is an orange */
 }
 .button-secondary {
-    background: rgb(66, 184, 221);
+    background: rgb(66, 184, 221) ;
     /* this is a light blue */
 }
 
@@ -54,13 +62,12 @@ html, body {
     height: 50px;
 }
 
-
 .navLinks {
     /* equal-distant between links */
     width: 100%;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: center; 
 }
 
 .navLinks a {

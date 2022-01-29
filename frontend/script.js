@@ -14,8 +14,8 @@ collabs?.addEventListener('click', ()=>{
 // Page management
 let page = "welcome"
 function changePage(gotoPage) {
-    $("#page-" + page).fadeOut(200, () => {
-        $("#page-" + gotoPage).fadeIn()
+    $("#page-" + page).fadeOut(150, () => {
+        $("#page-" + gotoPage).fadeIn(150)
     })
     page = gotoPage
 }
@@ -61,6 +61,9 @@ let players = []
 let playerId = null
 let playerName = "Guest"
 let gameId = null
+let gameName = ""
+let participateAsHost = false
+let timer = 30 // seconds. when timer reaches 0, request the correct answer AND the next question
 
 async function api(uri, payload) {
     let isPostMethod = typeof payload !== "GET"
@@ -91,7 +94,8 @@ async function api(uri, payload) {
 }
 
 /* Connect routes */
-async function connectToServer() {
+async function connectToServer(_playerName) {
+    playerName = _playerName || playerName
     let playerData = await api("connect/guest_login", {
         name: playerName,
         deviceId: deviceId
@@ -101,7 +105,10 @@ async function connectToServer() {
     $("#playerName").html(playerData.name)
 }
 async function createGame() {
-    let gameData = await api("connect/new_game")
+    let gameData = await api("connect/new_game", {
+        name: gameName,
+        participateAsHost
+    })
     gameId = gameData.id
     let joinLink = `${window.location.origin}?join=${gameData.inviteCode}`;
     updateShareButtons()
@@ -114,6 +121,10 @@ async function joinGame() {
 async function leaveGame() {
     await api("connect/leave_game", { gameId })
     alert("You have left the game")
+}
+async function startQuiz() {
+    await api("connect/start_quiz", { gameId })
+    
 }
 
 
@@ -136,9 +147,10 @@ async function fetchAndPopulateQuestion(questionIndex) {
 async function lockInAnswer(answerIndex) {
     await api("game/lock_in_answer", { answerIndex })
 }
-async function lockInAnswer(lifelineName) {
+async function useLifeline(lifelineName) {
     await api("game/lock_in_answer", { lifelineName })
 }
+
 
 /* Misc */
 function updateShareButtons() {
@@ -147,4 +159,21 @@ function updateShareButtons() {
     let shareDescription = `Join my quiz "Who Wants To Be A Millionaire"!`
     $(".twitter-share-button")[0].href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareDescription)}&url=${encodeURIComponent(shareLink)}`
 }
+function submitCreateARoom() {
+    gameName = $("#room-name").val()
+    playerName = $("#player-name").val()
+    participateAsHost = $("#participate-as-host").is(":checked")
+    createGame()
+    changePage("invite")
+}
+function joinSolo() {
+    changePage("quiz")
+    startQuiz()
+}
 
+
+$("#your-name").change(() => {
+    let name = $("#your-name").val()
+    if (name.length > 1) $("#room-name").val($("#your-name").val() + "'s room")
+    else $("#room-name").val("")
+})

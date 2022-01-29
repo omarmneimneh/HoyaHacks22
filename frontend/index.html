@@ -9,12 +9,14 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Who Wants To Be A Farmer?</title>
-  <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
     integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
 
   <!-- Libraries / CDNs -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -35,7 +37,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <div class="qna">
         Question <span id="questionNumber">13</span>
         <div class="question">
-          <span id="questionText">Which of the following is not a type of crop grown in the United States?</span>
+          <span id="questionText">Loading question...</span>
         </div>
         <div class="answers">
           <ul id="answerslist">
@@ -64,19 +66,49 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
     </div>
   </div>
 
-  <div class="container page center " id="page-welcome">
+  <div class="container page middle " id="page-welcome">
     <!-- 3 pure css buttons -->
-    <div class="vertical-center">
-      <button class="pure-button" id="button-create">Create</button>
-      <button class="pure-button" id="button-join">Join invite code</button>
-      <button class="pure-button" id="button-browse">Browse public games</button>
+    <div>
+      <button class="button-success pure-button " id="button-create" onclick="changePage('create')">Create room</button>
+      <button class=" button-warning pure-button " id="button-join" onclick="changePage('join')">Join with link</button>
+      <button class=" button-secondary pure-button " id="button-browse" onclick="joinSolo()">Play solo</button>
     </div>
   </div>
-    <div class="container page" id="page-create">
-      create
+    <div class="page middle" id="page-create">
+      <form class="pure-form pure-form-stacked" onsubmit="return false">
+        <fieldset>
+            <legend>Create a room</legend>
+            <label for="your-name">Your name</label>
+            <input type="text" id="your-name" placeholder="Name" />
+            <br>
+
+            <label for="room-name">Room name</label>
+            <input type="text" id="room-name" placeholder="Room" />
+            <br>
+            
+              <label for="aligned-cb" class="pure-checkbox">
+                  <input type="checkbox" id="participate-as-host" checked /> Participate as host
+              </label>
+              <small>If checked, the host (you) also answers the questions</small><br><br>
+              <button type="submit" class="pure-button pure-button-primary" onclick="submitCreateARoom()">Create</button>
+              <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
+    
+
+        </fieldset>
+      </form>
     </div>
-    <div class="container page" id="page-join">
-      join
+    <div class="middle page" id="page-join">
+      <!-- pure css large input -->
+      <form class="pure-form pure-form-stacked" onsubmit="return false">
+        <fieldset>
+            <legend>Join a room</legend>
+            <label for="invite-code-input">Invite code</label>
+            <input type="text" id="invite-code-input" placeholder="..." />
+            <button type="submit" class="pure-button pure-button-primary" onclick="submitJoinARoom()">Join</button>
+            <button type="button" class="pure-button pure-button-secondary" onclick="changePage('welcome')">Back</button>
+
+        </fieldset>
+      </form>
     </div>
     <div class="container page" id="page-browse">
       browse
@@ -88,8 +120,8 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <div>
         <h2>Invite your friends</h2>
         <p>Invite URL:</p>
-        <textarea id="inviteCodeArea"></textarea><br>
-        <button class="pure-button pure-button-primary" onclick="copyTextarea('inviteCodeArea')">Copy Invite</button>
+        <textarea id="inviteCodeArea" readonly></textarea><br>
+        <button class="pure-button pure-button-primary" id="copyInvite" onclick="copyTextarea('inviteCodeArea'); $('#copyInvite').text('Copied')">Copy Invite</button>
         <h2>Share on Social Media</h2>
         <!-- Twitter widget with share button -->
         <a class="twitter-share-button"
@@ -97,6 +129,8 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
           data-size="large">
           Tweet
         </a>
+        <h2>Start quiz</h2>
+        <a href="javascript:void(0)" onclick="changePage('quiz')">Take me to the quiz</a>
 
 
       </div>

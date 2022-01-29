@@ -1,3 +1,5 @@
 {
-    "MAX_PLAYERS": "100"
+    "MAX_PLAYERS": "100",
+    "TIMER_LENGTH": "30", // In seconds
+    "a": ""
 }
