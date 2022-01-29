@@ -88,3 +88,18 @@ html, body {
 .disabled {
     pointer-events: none;
 }
+
+#answers{
+    display: grid;
+    grid-template-columns: repeat(2, .1rem);
+}
+
+#answer{
+    list-style: none;
+}
+
+#answerbtn:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}

@@ -1,69 +1,80 @@
 <!DOCTYPE html>
+<!-- 
+You guys can see the HTML page by clicking Live Server in the Live Share tab.
+-->
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Who Wants To Be A Farmer?</title>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who Wants To Be A Farmer?</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+    integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
 
-    <!-- Libraries / CDNs -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <!-- Libraries / CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 </head>
+
 <body>
-    <div class="container">
-  
-
-
-        <div class="navBox">
-            <div class="logo">
-                <img src="https://placeholderlogo.com/img/placeholder-logo-1.png" alt="logo">
-            </div>
-
-            <div class="navLinks">
-                <a href="">Quiz</a>
-                <a href="">Chat</a>
-                <a href="">Invite</a>
-            </div>
-        </div>
-
-        <div class="interactive">
-            <div class="qna">
-                Question <span id="questionNumber">13</span>
-                <div class="question">
-                    13. Which of the following is not a type of crop grown in the United States?
-                </div>
-
-                <div class="answers">
-                    <ul id="answerslist">
-                        <li id="answer">Answer 1</li>
-                        <li id="answer">Answer 2</li>
-                        <li id="answer">Answer 3</li>
-                        <li id="answer">Answer 4</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copouts">
-                <button class="aidbtns">50:50</button>
-                <button class="aidbtns">Phone a Friend</button>
-                <button class="aidbtns">Ask The Audience</button>
-                <button class="aidbtns">Request a Hint</button>
-            </div>
-        </div>
-
-        <div class="prizeBoard">
-            <ol class="prizes" id="prizesList"> 
-         
-            </ol>
-        </div>
-
-        <div class="footer">
-
-        </div>
-
+  <div class="navBox">
+    <div class="logo">
+      <img src="https://placeholderlogo.com/img/placeholder-logo-1.png" alt="logo">
     </div>
+    <div class="navLinks">
+      <a href="" onclick="changePage('home')">Quiz</a>
+      <a href="">Chat</a>
+      <a href="">Invite</a>
+    </div>
+  </div>
+  <div class="container" id="page-quiz">
 
+
+    <div class="interactive">
+      <div class="qna">
+        Question <span id="questionNumber">13</span>
+        <div class="question">
+          13. Which of the following is not a type of crop grown in the United States?
+        </div>
+        <div class="answers">
+          <ul id="answerslist">
+            <li id="answer"><button id="answerbtn">Answer 1</button></li>
+            <li id="answer"><button id="answerbtn">Answer 2</button></li>
+            <li id="answer"><button id="answerbtn">Answer 3</button></li>
+            <li id="answer"><button id="answerbtn">Answer 4</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copouts">
+        <button class="aidbtns">50:50</button>
+        <button class="aidbtns">Phone a Friend</button>
+        <button class="aidbtns">Ask The Audience</button>
+        <button class="aidbtns">Request a Hint</button>
+      </div>
+    </div>
+    <div class="prizeBoard">
+      <ol class="prizes" id="prizesList">
+
+      </ol>
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+
+  <div class="container page" id="page-welcome">
+    <!-- 3 pure css buttons -->
+    <div class="button-group">
+      <button class="button">Create</button>
+      <button class="button">Join invite code</button>
+      <button class="button">Browse public games</button>
+    </div>
+    <div class="container page" id="page-create"></div>
+    <div class="container page" id="page-join"></div>
+    <div class="container page" id="page-browse"></div>
+    <div class="container page" id="page-chat"></div>
+    <div class="container page" id="page-invite"></div>
     <script src="script.js"></script>
 </body>
-</html> 
+
+</html>

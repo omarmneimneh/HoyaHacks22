@@ -73,7 +73,7 @@ class GameSession {
   constructor(name) {
     this.name = name;
     this.player = player;
-    this.id = idCounterGame++;
+    this.id = gameManager.idCounterGame++;
     this.inviteCode = this.id.toString(36).toUpperCase() // Generate unique invite code based on game id
     this.players = [];
     this.players.push(player);
@@ -120,9 +120,9 @@ class GameSession {
 
 class Player {
   constructor(name, ip) {
-    this.name = name || ("Guest-" + idCounterPlayer)
+    this.name = name || ("Guest-" + gameManager.idCounterPlayer)
     this.ip = ip || null
-    this.id = idCounterPlayer++;
+    this.id = gameManager.idCounterPlayer++;
     this.gameId = null;
     this.lifelines = {
       "50/50": {
