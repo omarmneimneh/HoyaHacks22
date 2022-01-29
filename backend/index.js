@@ -9,6 +9,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(express.static("public"))
 
 
 app.get('/', (req, res) => {
@@ -19,7 +20,7 @@ app.use('/game', routeGame)
 
 app.listen(port, () => {
     console.log(`Express app running on port ${port}`)
-})
+}) 
 
 // cors
 app.use(cors)
