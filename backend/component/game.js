@@ -82,17 +82,7 @@ class GameSession {
     
     this.questionIndex = 0;
     this.questionOrder = [];
-    this.lifelines = {
-      "50/50": {
-        "used": false,
-      },
-      "Ask the Audience": {
-        "used": false,
-      },
-      "Phone a Friend": {
-        "used": false,
-      }
-    };
+
     this.currentQuestion = {};
     
 
@@ -134,6 +124,17 @@ class Player {
     this.ip = ip || null
     this.id = idCounterPlayer++;
     this.gameId = null;
+    this.lifelines = {
+      "50/50": {
+        "used": false,
+      },
+      "Ask the Audience": {
+        "used": false,
+      },
+      "Phone a Friend": {
+        "used": false,
+      }
+    };
   }
 
   toString() {

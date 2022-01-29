@@ -3,6 +3,8 @@
     /* temporary */
 }
 
+
+
 html, body {
     margin: 0;
     padding: 0;
@@ -82,4 +84,7 @@ html, body {
 .aidbtns:active {
 	position:relative;
 	top:1px;
+}
+.disabled {
+    pointer-events: none;
 }
