@@ -27,4 +27,19 @@
 .interactive{
     border: 5px black solid;
     width: 95%;
+    margin-top: 5%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.qna{
+    position: relative;
+    top:-25%;
+}
+.question{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
