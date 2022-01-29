@@ -1,0 +1,68 @@
+[
+  {
+    "q": { // q = question
+      "en": "What is the most grown food in the world?",
+      "es": "¿Cual es el alimento mas cultivado en el mundo?",
+      "fr": "Quel est le plus grand aliment du monde?"
+    },
+    "a": [ // a = answer
+      { // Index: 0
+        "en": "Cotton",
+        "es": "Algodon",
+        "fr": "Coton"
+      },
+      { // Index: 1
+        "en": "Wheat",
+        "es": "Trigo",
+        "fr": "Blé"
+      },
+      { // Index: 2
+        "en": "Rice",
+        "es": "Arroz",
+        "fr": "Riz"
+      },
+      { // Index: 3
+        "en": "Corn",
+        "es": "Maiz",
+        "fr": "Maïs"
+      }
+    ],
+    "correct": 3, // Answer is corn
+    "correctText": { // Text to show after the contestant answers the question
+      "en": "Corn is the most grown food in the world.",
+      "es": "El maiz es el alimento mas cultivado en el mundo.",
+      "fr": "Le maïs est le plus grand aliment du monde."
+    },
+    "difficulty": "easy"
+  },
+
+  {
+    "q": {
+      "en": "Which of the following grows in warm climates?"
+    },
+    "a": [
+      { // Index: 0
+        "en": "Cotton"
+      },
+      { // Index: 1
+        "en": "Wheat"
+      },
+      { // Index: 2
+        "en": "Rice"
+      },
+      { // Index: 3
+        "en": "Corn"
+      }
+    ],
+    "correctText": {
+      "en": "Cotton grows in warm climates."
+    },
+    "difficulty": "medium"
+  },
+  {
+    // Question 3
+    "q": {
+      
+    }
+  }
+]
