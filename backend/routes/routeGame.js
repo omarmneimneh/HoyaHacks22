@@ -15,7 +15,7 @@ routeGame.post("/get_question", (req, res) => {
   */
   let player = gm.findPlayerByKey(req.body.playerKey);
   let game = gm.findGame(player.gameId);
-  let question = game.getQuestion(req.body.questionIndex);
+  let question = JSON.parse(JSON.stringify(game.getQuestion(req.body.questionIndex)))
   delete question.correct;
   delete question.correctText;
   res.send(question)
@@ -33,7 +33,7 @@ routeGame.post("/get_current_question", (req, res) => {
   */
   let player = gm.findPlayerByKey(req.body.playerKey);
   let game = gm.findGame(player.gameId);
-  let question = game.getCurrentQuestion()
+  let question = JSON.parse(JSON.stringify(game.getCurrentQuestion()))
   delete question.correct;
   delete question.correctText;
   res.send(question)
@@ -119,10 +119,10 @@ routeGame.post("/everyone_has_answer", (req, res) => {
   let playersDoneLength = playersDone.length;
   let playersLength = game.players.length;
   let done = playersDoneLength >= playersLength
-  let correctAnswerIndex = -1
   let questionIndex = game.questionIndex
+  let correctAnswerIndex = game.questions[req.body.questionIndex].correct
+  console.log("correctAnswerIndex", correctAnswerIndex, game.questions[req.body.questionIndex])
   if (done) {
-    correctAnswerIndex = game.questions[req.body.questionIndex].correct
     setTimeout(() => {
       game.questionIndex = req.body.nextQuestionIndex;
     }, 2500);
