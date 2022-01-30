@@ -64,7 +64,7 @@ routeConnect.post("/join_game", (req, res) => {
   /*
   Schema for /join_game
   {
-    gameId: String, // ID of the game to join
+    inviteCode: String, // ID of the game to join
     playerKey: String, // Auth key of the player
   }
   RETURNS
@@ -74,9 +74,11 @@ routeConnect.post("/join_game", (req, res) => {
     inviteCode: String, // Invite code for the game
     players: Array<Player> // List of players in the game
   */
+  let inviteCode = req.body.inviteCode;
+  let game = gm.games.find(game => game.inviteCode === inviteCode);
   let player = gm.findPlayerByKey(req.body.playerKey);
-  let collection = gm.findGame(req.body.gameId).addPlayer(player);
-  return res.send(collection.game.toString());
+  game.addPlayer(player);
+  res.send(game.toString());
 });
 
 routeConnect.post("/leave_game", (req, res) => {
@@ -108,8 +110,8 @@ routeConnect.post("/start_quiz", (req, res) => {
   }
   */
   let player = gm.findPlayerByKey(req.body.playerKey);
-  let game = gm.findGame(req.body.gameId);
-  game.removePlayer(player);
+  let game = gm.findGame(player.gameId);
+  game.startQuiz();
   res.send({error: false});
 })
 

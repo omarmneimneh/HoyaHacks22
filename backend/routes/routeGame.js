@@ -21,6 +21,24 @@ routeGame.post("/get_question", (req, res) => {
   res.send(question)
 });
 
+routeGame.post("/get_current_question", (req, res) => {
+  /*
+  Schema for /get_question
+  {
+    playerKey: String, // Auth key of the player,
+    questionIndex: Number, // Index of the question to get
+  }
+  RETURNS
+  (questions.jsonc)[questionIndex]
+  */
+  let player = gm.findPlayerByKey(req.body.playerKey);
+  let game = gm.findGame(player.gameId);
+  let question = game.getCurrentQuestion()
+  delete question.correct;
+  delete question.correctText;
+  res.send(question)
+});
+
 routeGame.get("/get_random_question", (req, res) => {
   /*
   Schema for /get_random_question
@@ -81,6 +99,7 @@ routeGame.post("/everyone_has_answer", (req, res) => {
   Schema for /everyone_has_answer
   {
     playerKey: String, // Player's unique key
+    nextQuestionIndex: Number, // Index of the next question
   }
   RETURN
   {
@@ -93,21 +112,25 @@ routeGame.post("/everyone_has_answer", (req, res) => {
     correctAnswerIndex: Number, // Index of the correct answer
   }
   */
-  let result = {}
   let player = gm.findPlayerByKey(req.body.playerKey);
   let game = gm.findGame(player.gameId);
-  let playersDone = game.players.filter(p => p.answerIndex !== -1)
-  let done = playersDone >= playersTotal
+  let playersDone = game.players.filter(p => p.onQuestionIndex === game.questionIndex);
+  let playersDoneLength = playersDone.length;
+  let playersLength = game.players.length;
+  let done = playersDoneLength >= playersLength
   let correctAnswerIndex = -1
+  let questionIndex = game.questionIndex
   if (done) {
     correctAnswerIndex = game.getCurrentQuestion().correct;
+    game.questionIndex = req.body.nextQuestionIndex;
   }
   res.send({
     done: done,
     correctAnswerIndex: correctAnswerIndex,
-    playersDone: playersDone.map(p => p.name),
+    playersDone: playersDoneLength,
     playersDoneLength: playersDone.length,
-    playersLength: game.players.length,
+    playersLength: playersLength,
+    questionIndex: questionIndex
   });
 })
 

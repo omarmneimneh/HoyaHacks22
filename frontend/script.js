@@ -2,7 +2,7 @@
 
 
 // Page management
-let page = "quiz"
+let page = "welcome"
 function changePage(gotoPage) {
     $("#page-" + page).fadeOut(150, () => {
         $("#page-" + gotoPage).fadeIn(150)
@@ -13,7 +13,7 @@ $(".page").hide() // Hide all pages
 $("#page-"+page).show()
 
 // Interactive content management
-let content = "quiz"
+let content = "start"
 function changeContent(gotoContent) {
     $("#content-" + content).fadeOut(150, () => {
         $("#content-" + gotoContent).fadeIn(150)
@@ -44,19 +44,25 @@ function copy(text) { // Less reliable than copyTextarea
 let prizes = [100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000]
 $(document).ready(init);
 async function init() {
-    $("#prizesList").html(prizes.map(p => `<li id="prize-${p}" class="prize">${p}</li>`).join(""))
+ //   $("#prizesList").html(prizes.map(p => `<li id="prize-${p}" class="prize">${p}</li>`).join(""))
 
 
     playerName = "test" //prompt("What should other players call you?")
     await connectToServer()
-    // await createGame()
+    
 
-    // await fetchAndPopulateQuestion(0)
+    // Get URL query parameters
+    let inviteCode = window.location.href.split("=")[1]
+    if (inviteCode) {
+        joinGame(inviteCode)
+    }
+
 }
 let playerKey = "" // Use this to authenticate player
 let deviceId = Math.random().toString().slice(2)
 let currentQuestion = "<p>Loading...</p>"
 let currentAnswers = []
+let questionIndex = 0
 let answerIndex = -1
 let currentPrize = prizes[currentQuestion]
 let players = []
@@ -127,9 +133,10 @@ async function createGame() {
     updateShareButtons()
     $("#inviteCodeArea").html(joinLink)
 }
-async function joinGame() {
-    let playerData = await api("connect/join_game", { gameId })
-    playerId = playerData.id
+async function joinGame(inviteCode) {
+    let gameData = await api("connect/join_game", { inviteCode })
+    gameId = gameData.id
+    await startQuiz()
 }
 async function leaveGame() {
     await api("connect/leave_game", { gameId })
@@ -137,7 +144,7 @@ async function leaveGame() {
 }
 async function startQuiz() {
     let quizData = await api("connect/start_quiz", { gameId })
-    
+    await fetchAndPopulateQuestion("current")
     changeContent("quiz")
 }
 
@@ -148,6 +155,8 @@ async function fetchAndPopulateQuestion(questionIndex) {
     let questionData
     if (questionIndex === "random") {
         questionData = await api("game/get_random_question", "GET")
+    } else if (questionIndex === "current") {
+        questionData = await api("game/get_current_question")
     } else {
         questionData = await api("game/get_question", { questionIndex })
     }
@@ -160,7 +169,7 @@ async function fetchAndPopulateQuestion(questionIndex) {
     let alphabet = "ABCD"
     for (let i = 0; i < questionData.a.length; i++) {
         let answer = questionData.a[i]
-        $(`#answer-${i} button`).text(`${alphabet[i]}. ${answer}`)
+        $(`#answer-${i} button`).html(`<span class="letter">${alphabet[i]}.</span> ${answer}`)
     }
     
 }
@@ -191,15 +200,27 @@ async function useLifeline(lifelineName) {
 
 }
 async function everyoneHasAnswer() {
-    let waitingData = await api("game/everyone_has_answer")
+    let nextQuestionIndex = questionIndex + 1;
+    let waitingData = await api("game/everyone_has_answer", { nextQuestionIndex });
+    
     if (waitingData.done) {
         isWaitingForOtherPlayers = false
         if (waitingData.correctAnswerIndex === answerIndex) {
             alert("correct")
             changeContent("quiz")
         } else {
-            changeContent("gameover")
+            alert("incorrect")
+            changeContent("quiz")
         }
+        if (waitingData.questionIndex !== questionIndex) {
+            questionIndex = waitingData.questionIndex
+            await fetchAndPopulateQuestion(questionIndex)
+            changeContent("quiz")
+        }
+    } else {
+        $("#playersDone").text(waitingData.playersDone)
+        $("#playersDoneLength").text(waitingData.playersDoneLength)
+        $("#playersLength").text(waitingData.playersLength)
     }
 }
 
@@ -227,9 +248,10 @@ function submitCreateARoom() {
     createGame()
     changePage("invite")
 }
-function joinSolo() {
+async function joinSolo() {
     changePage("quiz")
-    startQuiz()
+    await startQuiz()
+    await fetchAndPopulateQuestion("current")
 }
 
 
@@ -246,9 +268,4 @@ setInterval(() => {
     }
 }, 2000)
 
-setInterval(() => {
-    $("#timer").text(timer)
-    timer--
-    if (timer < 0) {
-    }
-}, 1000)
+

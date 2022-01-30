@@ -9,8 +9,9 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Who Wants To Be A Farmer?</title>
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
-    integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+
 
   <!-- Libraries / CDNs -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
@@ -30,73 +31,115 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       <a href="javascript:void(0)" onclick="changePage('invite')">Invite</a>
     </div>
   </div>
-  <div class="container page" id="page-quiz">
+  <div class="container page " id="page-quiz">
 
+    
+<!-- 
+  
+  Kyle I have a question
+what
+for the prizesWe should make it look good but u know how we can style it?
+I mean where to find it
 
-    <b id="timer">30</b>
-    <div class="interactive">
-      <div class="content" id="content-quiz">
-        <div class="qna">
-          Question <span id="questionNumber">13</span>
-          <div class="question">
-            <span id="questionText">Loading question...</span>
+Yeah
+https://static.wikia.nocookie.net/gameshows/images/9/92/Menu.PNG/revision/latest/scale-to-width-down/250?cb=20180821145230
+I mean from the code S
+in
+ce we should find where it is to find and style it
+   
+The background element is #prizesList
+Each prize amount is a li element with a class of prize
+Make #prize-1000, #prize-32000, #prize-1000000 color:white, but the rest color:orange
+(just my ideas, if you can make it look better go ahead)
+Oh u can connect the backend element and css?
+
+It's generated on line 47 of script.js, but yeah it is possible to render stuff on the backend too
+Oh okay I'll figure out how to do it
+ -->
+
+<div class="pure-g">
+  <div class="pure-u-1">
+  
+   </div>
+      <div class="interactive pure-u-lg-1-3 pure-u-1">
+        
+        <div class="content" id="content-quiz">
+          <div class="qna">
+            Question <span id="questionNumber">13</span>
+            <div class="question">
+              <span id="questionText">Loading question...</span>
+            </div>
+            <div class="answers">
+              <ul id="answerslist">
+                <li id="answer-0"><button  class="answerbtn" onclick="clickAnswer(0)">Answer 1</button></li>
+                <li id="answer-1"><button class="answerbtn" onclick="clickAnswer(1)">Answer 2</button></li>
+                <li id="answer-2"><button class="answerbtn" onclick="clickAnswer(2)">Answer 3</button></li>
+                <li id="answer-3"><button class="answerbtn" onclick="clickAnswer(3)">Answer 4</button></li>
+              </ul>
+            </div>
           </div>
-          <div class="answers">
-            <ul id="answerslist">
-              <li id="answer-0"><button  class="answerbtn" onclick="clickAnswer(0)">Answer 1</button></li>
-              <li id="answer-1"><button class="answerbtn" onclick="clickAnswer(1)">Answer 2</button></li>
-              <li id="answer-2"><button class="answerbtn" onclick="clickAnswer(2)">Answer 3</button></li>
-              <li id="answer-3"><button class="answerbtn" onclick="clickAnswer(3)">Answer 4</button></li>
-            </ul>
+          <div class="copouts">
+            <button class="aidbtns" onclick="useLifeline('50/50')">50/50</button>
+            <button class="aidbtns" onclick="useLifeline('Phone a Friend')">Phone a Friend</button>
+            <br>
+            <br>
+            <button class="aidbtns" onclick="useLifeline('Ask the Audience')">Ask The Audience</button>
+            <!-- <button class="aidbtns" onclick="useLifeline('50/50')">Request a Hint</button> -->
           </div>
         </div>
-        <div class="copouts">
-          <button class="aidbtns" onclick="useLifeline('50/50')">50/50</button>
-          <button class="aidbtns" onclick="useLifeline('Phone a Friend')">Phone a Friend</button>
-          <br>
-          <br>
-          <button class="aidbtns" onclick="useLifeline('Ask the Audience')">Ask The Audience</button>
-          <!-- <button class="aidbtns" onclick="useLifeline('50/50')">Request a Hint</button> -->
+        <div class="content" id="content-start">
+          <h1>Welcome to the Quiz!</h1>
+          <p>
+            This is a quiz about agriculture.
+          </p>
+          <p>
+            You will have 30 seconds to answer each question.
+          </p>
+          <p>
+            Each correct answer will double your money and an incorrect answer results in a game over.
+          </p>
+          <p>
+            Good luck!
+          </p>
+          <button class="pure-button" onclick="startQuiz()">Start</button>
         </div>
+        <div class="content" id="content-gameover">
+          Gameover
+        </div>
+        <div class="content" id="content-win">
+          You win!
+        </div>
+        <div class="content" id="content-confirm">
+          <h5>Is that your final answer?</h5>
+          <button class="pure-button" onclick="confirmAnswer()">Yes</button>
+          <button class="pure-button" onclick="changeContent('quiz')">No</button>
+        </div>
+        <div class="content" id="content-waiting">
+          <h5>Waiting for other players...</h5>
+          <p><span id="playersDoneLength">0</span> of <span id="playersLength">0</span></p>
+          <p><span id="playersDone"></span> answered</p>
+        </div>
+        
       </div>
-      <div class="content" id="content-start">
-        <h1>Welcome to the Quiz!</h1>
-        <p>
-          This is a quiz about agriculture.
-        </p>
-        <p>
-          You will have 30 seconds to answer each question.
-        </p>
-        <p>
-          Each correct answer will double your money and an incorrect answer results in a game over.
-        </p>
-        <p>
-          Good luck!
-        </p>
-        <button class="pure-button" onclick="startQuiz()">Start</button>
+      <div class="prizeBoard pure-u-lg-1-3 pure-u-1">
+        <ul class="prizes" id="prizesList">
+          <li id="prize-1000000" class="prize">$1,000,000</li>
+          <li id="prize-500000" class="prize">$500,000</li>
+          <li id="prize-250000" class="prize">$250,000</li>
+          <li id="prize-125000" class="prize">$125,000</li>
+          <li id="prize-64000" class="prize">$64,000</li>
+          <li id="prize-32000" class="prize">$32,000</li>
+          <li id="prize-16000" class="prize">$16,000</li>
+          <li id="prize-8000" class="prize">$8,000</li>
+          <li id="prize-4000" class="prize">$4,000</li>
+          <li id="prize-2000" class="prize">$2,000</li>
+          <li id="prize-1000" class="prize">$1,000</li>
+          <li id="prize-500" class="prize">$500</li>
+          <li id="prize-300" class="prize">$300</li>
+          <li id="prize-200" class="prize">$200</li>
+          <li id="prize-100" class="prize">$100</li>
+        </ul>
       </div>
-      <div class="content" id="content-gameover">
-        Gameover
-      </div>
-      <div class="content" id="content-win">
-        You win!
-      </div>
-      <div class="content" id="content-confirm">
-        <h5>Is that your final answer?</h5>
-        <button class="pure-button" onclick="confirmAnswer()">Yes</button>
-        <button class="pure-button" onclick="changeContent('quiz')">No</button>
-      </div>
-      <div class="content" id="content-waiting">
-        <h5>Waiting for other players...</h5>
-        <p><span id="playersDoneLength">0</span> of <span id="playersLength">0</span></p>
-        <p><span id="playersDone"></span> answered</p>
-      </div>
-      
-    </div>
-    <div class="prizeBoard">
-      <ol class="prizes" id="prizesList">
-
-      </ol>
     </div>
     <div class="footer">
     </div>
@@ -175,12 +218,12 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
 
   <div class="footer">
     <div class="collaborators">
-      <h3>Collaborators: </h3>
+      <h3>Team:</h3>
     </div>
 
     <div class="people">
       <div class="person">
-        <h4>Omar Mneimneh</h4>
+        <h4>Omar</h4>
         <div class="info">
           <a class="linkedin" href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
             <ion-icon name="logo-linkedin"></ion-icon>
@@ -188,7 +231,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
         </div>
       </div>
       <div class="person">
-        <h4>Kyle Wells</h4>
+        <h4>Kyle</h4>
         <div class="info">
           <a class="linkedin" href="https://www.linkedin.com/in/kqwq/">
             <ion-icon name="logo-linkedin"></ion-icon>
@@ -197,7 +240,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       </div>
 
       <div class="person">
-        <h4>Stefania Piciorea</h4>
+        <h4>Stefania</h4>
         <div class="info">
           <a class="linkedin" href="https://www.linkedin.com/in/stefania-piciorea-305056182/">
             <ion-icon name="logo-linkedin"></ion-icon>
@@ -206,7 +249,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       </div>
 
       <div class="person">
-        <h4>Yoonsang Lee</h4>
+        <h4>Yoonsang</h4>
         <div class="info">
           <a class="linkedin" href="https://www.linkedin.com/in/martin-18654a221//">
             <ion-icon name="logo-linkedin"></ion-icon>
@@ -215,7 +258,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       </div>
 
       <div class="person">
-        <h4>Maron Negassi</h4>
+        <h4>Maron</h4>
         <div class="info">
           <a class="linkedin" href="https://www.linkedin.com/in/omar-mneimneh-7848aa217/">
             <ion-icon name="logo-linkedin"></ion-icon>

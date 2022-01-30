@@ -66,7 +66,7 @@ class GameSession {
     this.created = new Date();
     this.hostId = hostId;
     this.participateAsHost = participateAsHost || true;
-    
+    this.timerReset = 30
     this.questionIndex = 0;
     this.questions = []
     
@@ -80,6 +80,20 @@ class GameSession {
       
 
   }
+
+  startQuiz() {
+    this.questionIndex = 0;
+
+  }
+
+  incrementQuestion() {
+    this.questionIndex++
+    if (this.questionIndex >= this.questions.length) {
+
+    }
+  }
+
+
 
   getCurrentQuestion() {
     return this.questions[this.questionIndex]
@@ -137,9 +151,11 @@ class Player {
       }
     };
     this.answerIndex = -1;
+    this.onQuestionIndex = -1;
   }
 
   lockIn(answerIndex) {
+    this.onQuestionIndex = gameManager.findGame(this.gameId).questionIndex
     this.answerIndex = answerIndex
   }
 
