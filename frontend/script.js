@@ -129,7 +129,7 @@ async function createGame() {
         participateAsHost
     })
     gameId = gameData.id
-    let joinLink = `${window.location.origin}?join=${gameData.inviteCode}`;
+    let joinLink = `https://omarmneimneh.github.io/HoyaHacks22/frontend/?join=${gameData.inviteCode}`;
     updateShareButtons()
     $("#inviteCodeArea").html(joinLink)
 }
