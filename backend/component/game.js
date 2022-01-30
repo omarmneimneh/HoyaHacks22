@@ -50,6 +50,11 @@ class GameManager {
   getGameList() {
     return this.games.map(game => game.toString())
   }
+
+  
+  getRandomQuestion () {
+    return this.allQuestions[Math.floor(Math.random() * this.allQuestions.length)]
+  }
 }
 
 class GameSession {
@@ -64,8 +69,6 @@ class GameSession {
     
     this.questionIndex = 0;
     this.questions = []
-
-    this.currentQuestion = {};
     
     // Generate a random order of questions
     let allQuestionsCopy = [ ...gameManager.allQuestions]
@@ -78,9 +81,12 @@ class GameSession {
 
   }
 
+  getCurrentQuestion() {
+    return this.questions[this.questionIndex]
+  }
+
   getQuestion(index) {
     return this.questions[index]
-
   }
 
   addPlayer(player) {
@@ -130,19 +136,68 @@ class Player {
         "used": false,
       }
     };
+    this.answerIndex = -1;
   }
 
   lockIn(answerIndex) {
     this.answerIndex = answerIndex
   }
 
+  getPercentages() {
+    let audienceAnswers = []
+    let myGame = gameManager.findGame(this.gameId)
+    for (let player of myGame.players) {
+      if (player.answerIndex > -1) {
+        audienceAnswers.push(player.answerIndex)
+      }
+    }
+    // Total up the answer counts
+    let answerCounts = {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+    }
+    for (let answer of audienceAnswers) {
+      answerCounts[answer]++
+    }
+    // Convert answer counts to percentages
+    let percentages = {}
+    for (let answer in answerCounts) {
+      percentages[answer] = Math.round(answerCounts[answer] / audienceAnswers.length * 100)
+    }
+    return percentages
+  }
+
   useLifeline(lifeline) {
+    console.log("using lifeline", lifeline)
     this.lifelines[lifeline].used = true
     switch (lifeline) {
       case "50/50":
+        let myGame = gameManager.findGame(this.gameId)
+        let currentQuestion = myGame.getCurrentQuestion()
+        let correctAnswerIndex = currentQuestion.correct
+        let wrongAnswerIndices = []
+        for (let i = 0; i < currentQuestion.a.length; i++) {
+          if (i !== correctAnswerIndex) {
+            wrongAnswerIndices.push(i)
+          }
+        }
+        // Remove one wrong answer
+        wrongAnswerIndices.splice(Math.floor(Math.random() * wrongAnswerIndices.length), 1)
+        return {
+          "lifeLineName": lifeline,
+          "wrongAnswerIndices": wrongAnswerIndices,
+        }
+
         break;
 
       case "Ask the Audience":
+        let percentages = this.getPercentages()
+        return {
+          "lifeLineName": lifeline,
+          "percentages": percentages,
+        }
         break;
 
       case "Phone a Friend":
@@ -153,7 +208,7 @@ class Player {
         break;
     }
   }
-  
+
 
   toString() {
     return {

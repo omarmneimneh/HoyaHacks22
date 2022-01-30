@@ -1,6 +1,5 @@
 * {
-    /* border: dotted pink 1px;
-    /* temporary */
+    margin: 0;
 }
 
 
@@ -83,15 +82,14 @@ html, body {
 }
 
 .interactive {
-    border: 5px black solid;
     width: 95%;
-    margin-top: 5%;
+    margin:2% auto;
     height: 65%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
+    border: 1px solid black;
 }
 
 .qna {
@@ -107,9 +105,11 @@ html, body {
 
 
 .copouts {
-    position: absolute;
-    right: 100px;
-    top: 200px;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 5%;
+    width: 100%;
 }
 
 .aidbtns {
@@ -118,7 +118,6 @@ html, body {
     background-color: #ededed;
     border-radius: 15px;
     border: 1px solid #d6bcd6;
-    display: inline-block;
     cursor: pointer;
     color: #3a8a9e;
     font-family: Arial;
@@ -126,6 +125,7 @@ html, body {
     padding: 7px 25px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #e1e2ed;
+    width: fit-content;
 }
 
 .aidbtns:hover {
@@ -139,6 +139,7 @@ html, body {
 }
 
 .disabled {
+    background-color: rgba(151, 151, 151, 0.2) !important;
     pointer-events: none;
 }
 
@@ -149,8 +150,10 @@ html, body {
     list-style-type: none;
 }
 
-#answer {
+.answerbtn {
     list-style: none;
+    background-color: black;
+    color: orange;
 }
 
 #answerbtn:hover {
@@ -167,12 +170,13 @@ html, body {
     background-color: #3A8A9E;
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 100vw;
     height: 5%;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     color: white;
+    overflow-x: inherit;
 }
 
 .people {
@@ -211,24 +215,26 @@ ion-icon:hover {
 
 .answerbtn {
     box-shadow: inset 0px 1px 0px 0px #bbdaf7;
-    background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-    background-color: #79bbff;
+    /* background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%); */
+    background-color: black;
     border-radius: 6px;
-    border: 1px solid #84bbf3;
+    border: 2px solid blue;
     display: inline-block;
     cursor: pointer;
-    color: #ffffff;
+    color: orange;
     font-family: Arial;
     font-size: 15px;
     font-weight: bold;
     padding: 6px 24px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #528ecc;
+    margin: auto 20px;
 }
 
 .answerbtn:hover {
     background: linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
     background-color: #378de5;
+    color: peachpuff;
 }
 
 .answerbtn:active {
@@ -237,5 +243,5 @@ ion-icon:hover {
 }
 
 .qna {
-    
+
 }

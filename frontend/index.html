@@ -33,6 +33,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
   <div class="container page" id="page-quiz">
 
 
+    <b id="timer">30</b>
     <div class="interactive">
       <div class="content" id="content-quiz">
         <div class="qna">
@@ -42,7 +43,7 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
           </div>
           <div class="answers">
             <ul id="answerslist">
-              <li id="answer-0"><button class="answerbtn" onclick="clickAnswer(0)">Answer 1</button></li>
+              <li id="answer-0"><button  class="answerbtn" onclick="clickAnswer(0)">Answer 1</button></li>
               <li id="answer-1"><button class="answerbtn" onclick="clickAnswer(1)">Answer 2</button></li>
               <li id="answer-2"><button class="answerbtn" onclick="clickAnswer(2)">Answer 3</button></li>
               <li id="answer-3"><button class="answerbtn" onclick="clickAnswer(3)">Answer 4</button></li>
@@ -50,12 +51,12 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
           </div>
         </div>
         <div class="copouts">
-          <button class="aidbtns" onclick="useLifeline('50:50')">50:50</button>
+          <button class="aidbtns" onclick="useLifeline('50/50')">50/50</button>
           <button class="aidbtns" onclick="useLifeline('Phone a Friend')">Phone a Friend</button>
           <br>
           <br>
           <button class="aidbtns" onclick="useLifeline('Ask the Audience')">Ask The Audience</button>
-          <!-- <button class="aidbtns" onclick="useLifeline('50:50')">Request a Hint</button> -->
+          <!-- <button class="aidbtns" onclick="useLifeline('50/50')">Request a Hint</button> -->
         </div>
       </div>
       <div class="content" id="content-start">
@@ -87,6 +88,8 @@ You guys can see the HTML page by clicking Live Server in the Live Share tab.
       </div>
       <div class="content" id="content-waiting">
         <h5>Waiting for other players...</h5>
+        <p><span id="playersDoneLength">0</span> of <span id="playersLength">0</span></p>
+        <p><span id="playersDone"></span> answered</p>
       </div>
       
     </div>

@@ -1,14 +1,4 @@
-//Open modal 
-const collabs = document.getElementById('collabs')
 
-collabs?.addEventListener('click', ()=>{
-    const modal = document.querySelector('.modal')
-    modal.classList.add('show')
-    const close = document.getElementById('close')
-    close.addEventListener('click', ()=>{
-        modal.classList.remove('show')
-    })
-})
 
 
 // Page management
@@ -75,10 +65,15 @@ let playerName = "Guest"
 let gameId = null
 let gameName = ""
 let participateAsHost = false
-let timer = 30 // seconds. when timer reaches 0, request the correct answer AND the next question
+let timer = 60 // seconds. when timer reaches 0, request the correct answer AND the next question
+let isWaitingForOtherPlayers = false
+
+if (page === "quiz") {
+    fetchAndPopulateQuestion("random")
+}
 
 async function api(uri, payload) {
-    let isPostMethod = typeof payload !== "GET"
+    let isPostMethod = payload !== "GET"
     if (isPostMethod) {
         if (!payload) {
             payload = {}
@@ -86,8 +81,8 @@ async function api(uri, payload) {
         payload.playerKey = playerKey
     }
     console.log("API call:", uri, payload)
-    //let serverAddress = "http://localhost:3000/"
-    let serverAddress = "https://fast-river-99233.herokuapp.com/"
+    let serverAddress = "http://localhost:3000/"
+    //let serverAddress = "https://fast-river-99233.herokuapp.com/"
     const res = await fetch(serverAddress + uri, {
         method: isPostMethod ? "POST" : "GET",
         mode: 'cors', 
@@ -149,7 +144,13 @@ async function startQuiz() {
 
 /* Connect routes */
 async function fetchAndPopulateQuestion(questionIndex) {
-    let questionData = await api("game/get_question", { questionIndex })
+    console.log("Fetching question", questionIndex)
+    let questionData
+    if (questionIndex === "random") {
+        questionData = await api("game/get_random_question", "GET")
+    } else {
+        questionData = await api("game/get_question", { questionIndex })
+    }
 
     // Populate question
     $("#questionText").text(questionData.q)
@@ -168,7 +169,38 @@ async function lockInAnswer() {
 }
 async function useLifeline(lifelineName) {
     // lifeLineName: "50-50", "Ask the Audience", "Phone a Friend", "Reqest a Hint"(?)
-    await api("game/use_lifeline", { lifelineName })
+    let lifelineData = await api("game/use_lifeline", { lifelineName })
+    switch (lifelineName) {
+        case "50-50":
+            // Gray-out the two wrong answers
+            let wrongAnswerIndices = lifelineData.wrongAnswerIndices
+            for (let i = 0; i < wrongAnswerIndices.length; i++) {
+                $(`#answer-${wrongAnswerIndices[i]} button`).addClass("disabled")
+            }
+            break
+        case "Ask the Audience":
+            // Show the number of people who answered correctly
+
+            break
+
+        case "Phone a Friend":
+
+            break;
+
+    }
+
+}
+async function everyoneHasAnswer() {
+    let waitingData = await api("game/everyone_has_answer")
+    if (waitingData.done) {
+        isWaitingForOtherPlayers = false
+        if (waitingData.correctAnswerIndex === answerIndex) {
+            alert("correct")
+            changeContent("quiz")
+        } else {
+            changeContent("gameover")
+        }
+    }
 }
 
 
@@ -179,6 +211,7 @@ function clickAnswer(_answerIndex) {
 }
 function confirmAnswer() {
     lockInAnswer()
+    isWaitingForOtherPlayers = true
     changeContent("waiting")
 }
 function updateShareButtons() {
@@ -205,3 +238,17 @@ $("#your-name").change(() => {
     if (name.length > 1) $("#room-name").val($("#your-name").val() + "'s room")
     else $("#room-name").val("")
 })
+
+/* Intervals */
+setInterval(() => {
+    if (isWaitingForOtherPlayers) {
+        everyoneHasAnswer()
+    }
+}, 2000)
+
+setInterval(() => {
+    $("#timer").text(timer)
+    timer--
+    if (timer < 0) {
+    }
+}, 1000)
