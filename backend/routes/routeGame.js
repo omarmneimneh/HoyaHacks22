@@ -99,6 +99,7 @@ routeGame.post("/everyone_has_answer", (req, res) => {
   Schema for /everyone_has_answer
   {
     playerKey: String, // Player's unique key
+    questionIndex: Number, // Index of the question to get
     nextQuestionIndex: Number, // Index of the next question
   }
   RETURN
@@ -114,15 +115,17 @@ routeGame.post("/everyone_has_answer", (req, res) => {
   */
   let player = gm.findPlayerByKey(req.body.playerKey);
   let game = gm.findGame(player.gameId);
-  let playersDone = game.players.filter(p => p.onQuestionIndex === game.questionIndex);
+  let playersDone = game.players.filter(p => p.onQuestionIndex >= req.body.questionIndex);
   let playersDoneLength = playersDone.length;
   let playersLength = game.players.length;
   let done = playersDoneLength >= playersLength
   let correctAnswerIndex = -1
   let questionIndex = game.questionIndex
   if (done) {
-    correctAnswerIndex = game.getCurrentQuestion().correct;
-    game.questionIndex = req.body.nextQuestionIndex;
+    correctAnswerIndex = game.questions[req.body.questionIndex].correct
+    setTimeout(() => {
+      game.questionIndex = req.body.nextQuestionIndex;
+    }, 2500);
   }
   res.send({
     done: done,

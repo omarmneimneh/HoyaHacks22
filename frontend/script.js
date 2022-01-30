@@ -15,9 +15,9 @@ $("#page-"+page).show()
 // Interactive content management
 let content = "start"
 function changeContent(gotoContent) {
-    $("#content-" + content).fadeOut(150, () => {
-        $("#content-" + gotoContent).fadeIn(150)
-    })
+    $("#content-" + content).hide()
+        $("#content-" + gotoContent).show()
+    
     content = gotoContent
 }
 $(".content").hide() // Hide all pages
@@ -137,6 +137,8 @@ async function joinGame(inviteCode) {
     let gameData = await api("connect/join_game", { inviteCode })
     gameId = gameData.id
     await startQuiz()
+    changePage("quiz")
+    
 }
 async function leaveGame() {
     await api("connect/leave_game", { gameId })
@@ -201,21 +203,20 @@ async function useLifeline(lifelineName) {
 }
 async function everyoneHasAnswer() {
     let nextQuestionIndex = questionIndex + 1;
-    let waitingData = await api("game/everyone_has_answer", { nextQuestionIndex });
+    let waitingData = await api("game/everyone_has_answer", { nextQuestionIndex, questionIndex });
     
     if (waitingData.done) {
-        isWaitingForOtherPlayers = false
-        if (waitingData.correctAnswerIndex === answerIndex) {
-            alert("correct")
-            changeContent("quiz")
-        } else {
-            alert("incorrect")
-            changeContent("quiz")
-        }
-        if (waitingData.questionIndex !== questionIndex) {
+console.log("comparing", waitingData.questionIndex, questionIndex, "wdq", "q")
+        if (waitingData.questionIndex != questionIndex) {
+            console.log("NEXT")
+            isWaitingForOtherPlayers = false
             questionIndex = waitingData.questionIndex
             await fetchAndPopulateQuestion(questionIndex)
             changeContent("quiz")
+        } else if (waitingData.correctAnswerIndex === answerIndex) {    
+            changeContent("correct")
+        } else {
+            changeContent("incorrect")
         }
     } else {
         $("#playersDone").text(waitingData.playersDone)
