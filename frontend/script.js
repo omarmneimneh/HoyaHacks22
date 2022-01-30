@@ -87,8 +87,8 @@ async function api(uri, payload) {
         payload.playerKey = playerKey
     }
     console.log("API call:", uri, payload)
-    let serverAddress = "http://localhost:3000/"
-    //let serverAddress = "https://fast-river-99233.herokuapp.com/"
+    //let serverAddress = "http://localhost:3000/"
+    let serverAddress = "https://fast-river-99233.herokuapp.com/"
     const res = await fetch(serverAddress + uri, {
         method: isPostMethod ? "POST" : "GET",
         mode: 'cors', 
